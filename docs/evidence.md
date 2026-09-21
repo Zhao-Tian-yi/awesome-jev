@@ -1,8 +1,8 @@
 # Project evidence and version notes
 
-[Home](../README.md) · [Audit limitations](audit.md)
+[Home](../README.md) · [Full comparison](comparison.md) · [Audit limitations](audit.md)
 
-Generated from `data/projects.yaml`. This index distinguishes inspected source from author documentation; links are not an endorsement. Multilingual notes are retained in the data. Dates below describe first publication, not later releases.
+Generated from `data/projects.yaml`. Source inspection, documentation and author claims are distinguished below. Links are not an endorsement; no new technical audit is implied by a layout update.
 
 ## official-jev
 
@@ -11,6 +11,8 @@ Generated from `data/projects.yaml`. This index distinguishes inspected source f
 Official reference, not an open model. Parallel API behavior does not establish diffusion, a one-forward implementation, or a particular cache layout. Launch date and RLCD internals need primary-source re-verification.
 
 **RL status:** Vendor terminology; proprietary algorithm not verified
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Official+Jev&project=Official+Jev)
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -24,6 +26,8 @@ Official reference, not an open model. Parallel API behavior does not establish 
 Frozen candidate-token readout. Shared mode prefills once, duplicates the native cache, then batches suffixes; it is not diffusion or a single total forward. No project-trained weights; upstream weights are required.
 
 **RL status:** Frozen inference path
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+SemIf&project=SemIf)
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -43,7 +47,9 @@ Reads allowed labels at answer slots; optional denoising and noisy rereads. Join
 
 **RL status:** No Jev-specific training in the documented baseline
 
-**Model/artifact link:** https://huggingface.co/nvidia/diffusiongemma-26B-A4B-it-NVFP4 (project weight status: No; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+OpenJev+%2F+DiffusionGemma&project=OpenJev+%2F+DiffusionGemma)
+
+**Model/artifact link:** https://huggingface.co/nvidia/diffusiongemma-26B-A4B-it-NVFP4 (project-weight status: No; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -61,7 +67,9 @@ Qwen3 uses packed block-causal branches. Qwen3.5 uses separate cached rows becau
 
 **RL status:** Released recipe uses supervised cross-entropy
 
-**Model/artifact link:** https://huggingface.co/jaredpalmer/kev-4b (project weight status: Partial; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Kev&project=Kev)
+
+**Model/artifact link:** https://huggingface.co/jaredpalmer/kev-4b (project-weight status: Partial; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -79,7 +87,9 @@ Candidate paths are tensor-batched. The paired proper-reward estimator is compar
 
 **RL status:** Independent RLCD-inspired prototype; not the main supervised release
 
-**Model/artifact link:** https://huggingface.co/C-Tianyu/NanoJev (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+NanoJev&project=NanoJev)
+
+**Model/artifact link:** https://huggingface.co/C-Tianyu/NanoJev (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -94,6 +104,8 @@ Each option queries context tokens before a shared scorer and softmax. ECE repor
 
 **RL status:** Supervised option scoring
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+jevlike&project=jevlike)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/vinnylarouge/jevlike/blob/main/README.md) | architecture, training, outputs, encoder_variants | Implementation documentation |
@@ -106,7 +118,9 @@ The notebook samples Gaussian logit perturbations and uses detached rewards plus
 
 **RL status:** Gaussian-logit policy gradient + soft CE; not standard GRPO
 
-**Model/artifact link:** https://huggingface.co/convaiinnovations/laya (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Laya&project=Laya)
+
+**Model/artifact link:** https://huggingface.co/convaiinnovations/laya (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -125,7 +139,9 @@ README calls CE+Brier RLCD, but that is a supervised objective. OptionMarker and
 
 **RL status:** Public CE + Brier recipe is not policy-gradient RL
 
-**Model/artifact link:** https://huggingface.co/wfzyx/von-1.0 (project weight status: Partial; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Von&project=Von)
+
+**Model/artifact link:** https://huggingface.co/wfzyx/von-1.0 (project-weight status: Partial; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -140,7 +156,9 @@ Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning
 
 **RL status:** 2B v10 has PPO + belief calibration; 35B v1 has no RL
 
-**Model/artifact link:** https://huggingface.co/Mapika/decider-2b (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+decider&project=decider)
+
+**Model/artifact link:** https://huggingface.co/Mapika/decider-2b (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -155,6 +173,8 @@ No AR decoding for bounded enums/Booleans. Optional strings and numbers still us
 
 **RL status:** Frozen comparison study
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+mini-Jev&project=mini-Jev)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/r-ms/mini-jev/blob/main/README.md) | backbone, enum_readout, generated_extensions, score_not_measured | Experimental method documentation |
@@ -166,6 +186,8 @@ No AR decoding for bounded enums/Booleans. Optional strings and numbers still us
 Direct output-head scoring with optional temperature fitting. The configured Qwen default is recorded as the repository's declaration, not as an independent validation of every supported checkpoint or shared-state speedup.
 
 **RL status:** Frozen direct-readout path
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+LitJev&project=LitJev)
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -183,6 +205,8 @@ Questions are sequential and re-encode context; shared computation is planned, n
 
 **RL status:** Explicitly no RLCD implementation
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Open+JEV+%28zhihz%29&project=Open+JEV+%28zhihz%29)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/zhihz/openjev/blob/main/README.md) | backbone, sequential_questions, reencoding, outputs, no_rlcd | Implementation documentation |
@@ -194,6 +218,8 @@ Questions are sequential and re-encode context; shared computation is planned, n
 Scores all tokens of supplied continuations with teacher forcing, not only the first label token. AR factorization does not imply sampled decoding. Cache is shared across options within a question; optional CE-trained attention head is separate.
 
 **RL status:** Optional supervised head training
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+open-jev+%28daseinlabs%29&project=open-jev+%28daseinlabs%29)
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -207,6 +233,8 @@ Current stable recipe is frozen 4B, two option orders, no adapter and no calibra
 
 **RL status:** Stable manifest selects frozen weights
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+reflex&project=reflex)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/kshetrajna12/reflex/blob/main/README.md) | stable_recipe, two_order_ensemble, no_adapter, no_calibration_file | Release documentation |
@@ -219,7 +247,9 @@ Jointly encodes context and labels; do not infer an independent dual-encoder fro
 
 **RL status:** CE + Brier; RLCD branding does not establish RL
 
-**Model/artifact link:** https://huggingface.co/heman10x/rlcd-modernbert-151m (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Verdict+%2F+OpenJev&project=Verdict+%2F+OpenJev)
+
+**Model/artifact link:** https://huggingface.co/heman10x/rlcd-modernbert-151m (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -233,7 +263,9 @@ Samples an option; correctness feedback c gives reward c-p(a), with a leave-one-
 
 **RL status:** Independent bandit REINFORCE recipe; not official TypeSafe RLCD
 
-**Model/artifact link:** https://huggingface.co/anthonym21/qwen3-0.6b-rlcd-decision (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+eve-rlcd&project=eve-rlcd)
+
+**Model/artifact link:** https://huggingface.co/anthonym21/qwen3-0.6b-rlcd-decision (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -252,7 +284,9 @@ Updated from the stale 547K-only description. Current documented release freezes
 
 **RL status:** Distribution losses and post-hoc temperature
 
-**Model/artifact link:** https://huggingface.co/zeredy879/minojev (project weight status: Partial; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+minojev&project=minojev)
+
+**Model/artifact link:** https://huggingface.co/zeredy879/minojev (project-weight status: Partial; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -266,6 +300,8 @@ Recipe for task-specific synthesis/annotation, LoRA and a decision head. Several
 
 **RL status:** Teacher-generated or annotated supervised data
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Luce&project=Luce)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/scienthoon/luce/blob/main/README.md) | backbone, training, modes, outputs, calibration, transfer_limits | Method documentation |
@@ -277,6 +313,8 @@ Recipe for task-specific synthesis/annotation, LoRA and a decision head. Several
 NLI-based decision interface with temperature and abstention utilities. Finite-set ECE and conformal coverage are different claims; neither makes every probability universally calibrated. Multi-question batching is not demonstrated shared representation reuse.
 
 **RL status:** Post-hoc calibration; no RL shown
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+poorjev&project=poorjev)
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -290,6 +328,8 @@ Hashed character n-grams, two-layer context Transformer, option interaction and 
 
 **RL status:** Supervised learning and temperature scaling
 
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+jevbetter&project=jevbetter)
+
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/olanotolu/jevbetter/blob/main/README.md) | architecture, training, option_interaction, calibration | Implementation documentation |
@@ -302,7 +342,9 @@ Expands each question into K repeated-state candidate rows, pools the last valid
 
 **RL status:** Preliminary grouped sampling + utility + Brier + KL
 
-**Model/artifact link:** https://huggingface.co/AndeyTait/JevForge-0.8B (project weight status: Yes; upstream links are identified in notes).
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+JevForge&project=JevForge)
+
+**Model/artifact link:** https://huggingface.co/AndeyTait/JevForge-0.8B (project-weight status: Yes; upstream links are identified in the notes).
 
 | Source | Supports | Evidence level |
 |---|---|---|
@@ -315,6 +357,8 @@ Expands each question into K repeated-state candidate rows, pools the last valid
 One-pass label slots for up to 52 candidates; larger sets use chunks and a final round. README says weights reside on the author's Modal volume and HF upload is pending, so public project weights are not marked available.
 
 **RL status:** CE + Brier and temperature fitting
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+System+One+Open&project=System+One+Open)
 
 | Source | Supports | Evidence level |
 |---|---|---|
