@@ -1,0 +1,57 @@
+# SPDX-License-Identifier: CC-BY-4.0
+lists:
+- name: OmniJev/awesome-jev-gallery
+  url: https://github.com/OmniJev/awesome-jev-gallery
+  release_date: '2026-09'
+  languages: [English]
+  focus: Research / Ecosystem
+  date_evidence: https://github.com/OmniJev/awesome-jev-gallery/blob/main/README.md
+  date_note: Author reports repository launch in 2026-09; day unknown.
+  notes:
+    en: Papers, open models, evaluations and ecosystem resources; canonical renamed repository.
+    zh: 论文、开源模型、评测与生态资源；使用更名后的规范仓库地址。
+    ja: 論文、オープンモデル、評価、エコシステム資料。改名後の正規 URL。
+- name: Zhao-Tian-yi/awesome-jev
+  url: https://github.com/Zhao-Tian-yi/awesome-jev
+  release_date: '2026-09-21'
+  languages: [English, 简体中文, 日本語]
+  focus: Research
+  date_evidence: https://api.github.com/repos/Zhao-Tian-yi/awesome-jev
+  date_note: Public creation observed in this user-authorized session, corroborated by repository metadata.
+  notes:
+    en: Yes, this repo is now part of an awesome list of awesome Jev lists.
+    zh: 是的，本仓库现在也是 awesome Jev 列表的 awesome list 的一员。
+    ja: はい、このリポジトリも awesome Jev リストの awesome list に入りました。
+- name: yibie/awesome-jev
+  url: https://github.com/yibie/awesome-jev
+  release_date: null
+  languages: [English]
+  focus: Applications / Ecosystem
+  date_evidence: https://github.com/yibie/awesome-jev/blob/main/README.md
+  date_note: First-public date not established.
+  notes:
+    en: Application-domain catalogue with explicit curation and evidence caveats.
+    zh: 按应用领域组织，明确区分收录与质量背书。
+    ja: 応用領域別の一覧。掲載と品質の保証を明確に区別する。
+- name: AnotiaWang/awesome-jev
+  url: https://github.com/AnotiaWang/awesome-jev
+  release_date: null
+  languages: [English, 简体中文]
+  focus: Ecosystem
+  date_evidence: https://github.com/AnotiaWang/awesome-jev/blob/main/README.md
+  date_note: First-public date not established; service access dates are not repository launch dates.
+  notes:
+    en: Bilingual catalogue of applications, libraries, tools and research.
+    zh: 中英双语整理应用、库、工具与研究。
+    ja: アプリケーション、ライブラリ、ツール、研究の二言語一覧。
+- name: hellogumbo/awesome-jev
+  url: https://github.com/hellogumbo/awesome-jev
+  release_date: null
+  languages: [English]
+  focus: Applications / Ecosystem
+  date_evidence: https://github.com/hellogumbo/awesome-jev/blob/main/README.md
+  date_note: First-public date not established; service access dates are not repository launch dates.
+  notes:
+    en: Application and integration directory with a searchable companion site.
+    zh: 应用与集成目录，配有可搜索的网站。
+    ja: 検索可能な付属サイトを持つアプリケーションと統合の一覧。

@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: CC-BY-4.0
+papers:
+- id: calibration
+  title: On Calibration of Modern Neural Networks
+  date: '2017-06-14'
+  paper: https://arxiv.org/abs/1706.04599
+  code: null
+  topic: Calibration
+  notes:
+    en: Post-hoc temperature scaling; not a guarantee under distribution shift.
+    zh: 后处理 temperature scaling，不保证分布变化后的校准。
+    ja: 事後的な temperature scaling。分布変化後の校正を保証しない。
+- id: bert
+  title: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'
+  date: '2018-10-11'
+  paper: https://arxiv.org/abs/1810.04805
+  code: null
+  topic: Encoder / Masked LM
+  notes:
+    en: Bidirectional representation learning, not a Jev implementation.
+    zh: 双向表征学习；不是 Jev 实现。
+    ja: 双方向表現学習であり、Jev の実装ではない。
+- id: mdlm
+  title: Simple and Effective Masked Diffusion Language Models
+  date: '2024-06-11'
+  paper: https://arxiv.org/abs/2406.07524
+  code: null
+  topic: Masked Diffusion
+  notes:
+    en: Masked diffusion objectives and sampling, not evidence about Jev internals.
+    zh: Masked diffusion 目标与采样，不构成 Jev 内部结构的证据。
+    ja: Masked diffusion の目的関数と sampling。Jev 内部構造の証拠ではない。
+- id: llada
+  title: Large Language Diffusion Models
+  date: '2025-02-14'
+  paper: https://arxiv.org/abs/2502.09992
+  code: https://github.com/ML-GSAI/LLaDA
+  topic: Diffusion LM
+  notes:
+    en: Large-scale masked diffusion pretraining and instruction tuning.
+    zh: 大规模 masked diffusion 预训练与指令微调。
+    ja: 大規模 masked diffusion の事前学習と instruction tuning。
+- id: rlcr
+  title: 'Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty'
+  date: '2025-07-22'
+  paper: https://arxiv.org/abs/2507.16806
+  code: https://github.com/damanimehul/RLCR
+  topic: RLCR
+  notes:
+    en: Modified GRPO and calibration rewards for generated confidence; distinct from proprietary RLCD.
+    zh: Modified GRPO 与校准奖励，输出生成式置信度；不能等同于未公开的 RLCD。
+    ja: Modified GRPO と校正報酬で生成された confidence を学習。非公開の RLCD と同一ではない。
+- id: gliclass
+  title: 'GLiClass: Generalist Lightweight Model for Sequence Classification Tasks'
+  date: '2025-08-11'
+  paper: https://arxiv.org/abs/2508.07662
+  code: null
+  topic: Runtime label classification
+  notes:
+    en: Adjacent runtime-label classification research; not itself a Jev reproduction.
+    zh: 与运行时标签分类相邻的研究，不直接视为 Jev 复现。
+    ja: 実行時ラベル分類の関連研究であり、Jev の再現とは区別する。

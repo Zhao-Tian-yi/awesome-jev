@@ -1,0 +1,15 @@
+# Content license
+
+Original curation, descriptions, documentation, and data in this repository are
+licensed under the Creative Commons Attribution 4.0 International license
+(SPDX: CC-BY-4.0).
+
+License text: https://creativecommons.org/licenses/by/4.0/legalcode.en
+
+Attribute this repository and its contributors and indicate your modifications.
+Links, factual metadata, third-party trademarks, quotations, and upstream code or
+weights do not acquire a new license merely by being listed here. Their respective
+rights and licenses remain with their owners. Inclusion does not grant model access.
+
+Python scripts under `scripts/` and workflow code under `.github/workflows/` are
+licensed separately under the MIT license in LICENSE-CODE.

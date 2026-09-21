@@ -1,0 +1,664 @@
+# SPDX-License-Identifier: CC-BY-4.0
+# First-public dates are null unless verified. Version milestones are separate.
+# ar describes the scoped decision path, not backbone pretraining.
+checked_at: '2026-09-21'
+projects:
+- id: official-jev
+  name: Official Jev
+  official: true
+  release_date: null
+  release_evidence: []
+  github: https://github.com/typesafe-ai
+  website: https://typesafe.ai/
+  paper: null
+  huggingface: null
+  backbone: Not disclosed
+  params: Not disclosed
+  architecture: Custom / Not Disclosed
+  training: Not disclosed
+  rl: RLCD
+  rl_status: Vendor terminology; proprietary algorithm not verified
+  ar: 'No'
+  decision_mechanism: Not disclosed
+  outputs: [Noul, Choice, Score]
+  weights: API only
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/typesafe-ai/skills/blob/main/skills/typesafe-ai/SKILL.md
+    supports: [outputs, dynamic_options, no_text_generation, question_independence]
+    level: Official documentation
+    blob: 0109513f9656917dc93cbc5ecddfca465a53ce66
+  - url: https://typesafe.ai/blog/introducing-system-one-models-and-jev
+    supports: [rlcd_vendor_terminology]
+    level: Previously cited official page; live retrieval failed in this audit
+  notes:
+    en: "Official reference, not an open model. Parallel API behavior does not establish diffusion, a one-forward implementation, or a particular cache layout. Launch date and RLCD internals need primary-source re-verification."
+    zh: "官方参照，不是开源模型。并行 API 行为不能证明 diffusion、一次前向或特定缓存结构。首次发布日期与 RLCD 细节仍需一手来源复核。"
+    ja: "公式の参照行であり、オープンモデルではない。並列 API だけから diffusion、単一 forward、キャッシュ構造は推定できない。初回公開日と RLCD の詳細は一次資料で再確認が必要。"
+- id: semif
+  name: SemIf
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://api.github.com/repos/TheoLeeCJ/SemIf/releases?per_page=5
+    kind: No GitHub releases returned; no first-public date established
+    date: null
+  github: https://github.com/TheoLeeCJ/SemIf
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3.5 / MiniCPM5 / Qwen3
+  params: 0.6B / 2B / 4B
+  architecture: AR LLM
+  training: None
+  rl: 'No'
+  rl_status: Frozen inference path
+  ar: 'No'
+  decision_mechanism: Next-token logits
+  outputs: [Choice, Binary, Probability Distribution]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/TheoLeeCJ/SemIf/blob/master/docs/METHOD.md
+    supports: [backbone, training, outputs, uncalibrated]
+    level: Method documentation
+  - url: https://github.com/TheoLeeCJ/SemIf/blob/master/src/semif_phase1/direct.py
+    supports: [decision_mechanism, no_decoding]
+    level: Source inspected
+  - url: https://github.com/TheoLeeCJ/SemIf/blob/master/src/semif_phase1/shared.py
+    supports: [shared_state, batched_suffixes]
+    level: Source inspected
+  notes:
+    en: "Frozen candidate-token readout. Shared mode prefills once, duplicates the native cache, then batches suffixes; it is not diffusion or a single total forward. No project-trained weights; upstream weights are required."
+    zh: "冻结模型直接读取候选 token。共享模式先 prefill，再复制原生缓存并批处理问题后缀；不是 diffusion，也不是整个请求只有一次前向。依赖上游权重。"
+    ja: "凍結モデルの候補 token を直接読む。共有モードは prefill 後にキャッシュを複製して suffix をバッチ処理する。diffusion でも、リクエスト全体が一度の forward でもない。"
+- id: openjev-diffusiongemma
+  name: OpenJev / DiffusionGemma
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://api.github.com/repos/razorback16/openjev/releases?per_page=10
+    kind: No GitHub releases returned; not evidence of first publication
+    date: null
+  github: https://github.com/razorback16/openjev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/nvidia/diffusiongemma-26B-A4B-it-NVFP4
+  backbone: DiffusionGemma 26B-A4B
+  params: 26B total / approximately 4B active
+  architecture: Diffusion / Masked
+  training: None
+  rl: 'No'
+  rl_status: No Jev-specific training in the documented baseline
+  ar: 'No'
+  decision_mechanism: Masked decision slots
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: partial, multi_q: 'yes', parallel_q: 'yes', non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/razorback16/openjev/blob/main/README.md
+    supports: [backbone, masked_slots, steps, rereads, outputs, limits]
+    level: Implementation documentation
+  notes:
+    en: "Reads allowed labels at answer slots; optional denoising and noisy rereads. Joint slots/chunks are not evidence of Jev-style question isolation. Sample averaging and entropy confidence are not calibration guarantees. Linked weights belong to the upstream model."
+    zh: "在回答槽位读取允许标签，可增加去噪步数和重复采样。联合槽位与分块不保证 Jev 式问题隔离；采样平均、熵置信度不等于 Calibration。链接为上游权重。"
+    ja: "回答スロットの許可ラベルを読み、追加の denoising や再読みに対応。共同スロットや分割処理は質問の独立性を保証しない。平均化や entropy は Calibration の保証ではなく、リンク先は上流の重み。"
+- id: kev
+  name: Kev
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/jaredpalmer/kev/releases/tag/kev-family
+    kind: Version milestone; earlier prototype publication remains unverified
+    date: '2026-09-20'
+  github: https://github.com/jaredpalmer/kev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/jaredpalmer/kev-4b
+  backbone: Qwen3.5; earlier Qwen3
+  params: 0.8B / 4B / 9B
+  architecture: AR LLM + Pointer Head
+  training: LoRA + Decision Head
+  rl: 'No'
+  rl_status: Released recipe uses supervised cross-entropy
+  ar: 'No'
+  decision_mechanism: Pointer head
+  outputs: [Noul, Choice, Score]
+  weights: Partial
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/jaredpalmer/kev/blob/main/README.md
+    supports: [backbone, lora, pointer_head, variants, isolation, weights]
+    level: Implementation documentation
+  notes:
+    en: "Qwen3 uses packed block-causal branches. Qwen3.5 uses separate cached rows because recurrent DeltaNet layers do not obey an attention mask. Released artifacts are adapters plus a head, not standalone base weights."
+    zh: "Qwen3 采用 packed block-causal 分支；Qwen3.5 的 DeltaNet 不受 attention mask 控制，因此改用独立行与缓存。发布的是 adapter 与 head，仍需底座权重。"
+    ja: "Qwen3 は packed block-causal 分岐、Qwen3.5 は DeltaNet のため独立したキャッシュ付き行を使う。公開物は adapter と head であり、基盤モデルの重みも必要。"
+- id: nanojev
+  name: NanoJev
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/TianyuCodings/NanoJev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/C-Tianyu/NanoJev
+  backbone: Qwen3-0.6B
+  params: 0.6B + heads
+  architecture: AR LLM + Decision Head
+  training: SFT; RL prototype
+  rl: RLCD (claimed)
+  rl_status: Independent RLCD-inspired prototype; not the main supervised release
+  ar: 'No'
+  decision_mechanism: Option-wise scoring
+  outputs: [Choice, Binary, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/TianyuCodings/NanoJev/blob/main/README.md
+    supports: [backbone, outputs, weights, main_recipe]
+    level: Release documentation
+  - url: https://github.com/TianyuCodings/NanoJev/blob/618cea6d906d54e128360786d12f703fff2b1245/docs/RLCD_EXPERIMENT.md
+    supports: [sampled_reward, estimator, limitations, batched_candidates]
+    level: Detailed experimental specification
+  notes:
+    en: "Candidate paths are tensor-batched. The paired proper-reward estimator is compared with CE and direct Brier; it is not recovered TypeSafe RLCD. Game-policy preference and event-success probabilities are different targets."
+    zh: "候选路径采用张量 batch。独立的 paired proper-reward 实验对照 CE 与直接 Brier，不是恢复出的 TypeSafe RLCD；动作偏好与事件成功概率必须分开。"
+    ja: "候補経路は tensor batch で処理する。独自の paired proper-reward 実験は CE・直接 Brier と比較され、TypeSafe RLCD の復元ではない。行動選好と成功確率を区別する。"
+- id: jevlike
+  name: jevlike
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/vinnylarouge/jevlike
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Custom / frozen HF encoder
+  params: Configuration-dependent
+  architecture: Option Scorer
+  training: Head-only / from scratch
+  rl: 'No'
+  rl_status: Supervised option scoring
+  ar: 'No'
+  decision_mechanism: Option-wise scoring
+  outputs: [Choice, Probability Distribution]
+  weights: Partial
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: partial, multi_q: unknown, parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/vinnylarouge/jevlike/blob/main/README.md
+    supports: [architecture, training, outputs, encoder_variants]
+    level: Implementation documentation
+  notes:
+    en: "Each option queries context tokens before a shared scorer and softmax. ECE reporting is not calibration training. Shared context across options is not shared-state multi-question inference; game checkpoints are task-specific."
+    zh: "每个选项查询上下文后，经共享 scorer 和 softmax 输出。报告 ECE 不等于校准训练；选项共享上下文不等于多问题共享状态。游戏 checkpoint 属于专用任务。"
+    ja: "各候補が文脈を参照し、共有 scorer と softmax で出力する。ECE の報告は Calibration Training ではない。候補間の文脈共有と質問間の共有を区別する。"
+- id: laya
+  name: Laya
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/NandhaKishorM/laya/releases/tag/v0.2.0
+    kind: Model-routing version release, not first project publication
+    date: '2026-09-19'
+  github: https://github.com/NandhaKishorM/laya
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/convaiinnovations/laya
+  backbone: ModernBERT / mmBERT
+  params: 421M / 322M (author-reported)
+  architecture: Encoder-based
+  training: Full FT + RL
+  rl: RLCD (claimed)
+  rl_status: Gaussian-logit policy gradient + soft CE; not standard GRPO
+  ar: 'No'
+  decision_mechanism: Option-marker head
+  outputs: [Noul, Choice, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/README.md
+    supports: [backbone, params, outputs, weights]
+    level: Author documentation
+  - url: https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb
+    supports: [sampled_logits, policy_gradient, soft_ce, temperature_fitting]
+    level: Training source inspected
+  notes:
+    en: "The notebook samples Gaussian logit perturbations and uses detached rewards plus soft CE; no PPO clipped ratio in the inspected block. Temperature fitting selects from all_items, the training list, so a held-out calibration guarantee is not established."
+    zh: "notebook 对 logits 采样高斯扰动，以 detached reward 的 policy gradient 加 soft CE 训练；核查片段没有 PPO clipped ratio。温度拟合从训练用 all_items 取样，不能写成独立留出校准。"
+    ja: "notebook は logits に Gaussian 摂動を加え、detached reward の policy gradient と soft CE を併用する。確認箇所に PPO clipped ratio はない。温度調整が訓練用 all_items を参照するため独立 holdout とは言えない。"
+- id: von
+  name: Von
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/wfzyx/von
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/wfzyx/von-1.0
+  backbone: ModernBERT variants
+  params: 395M (OptionMarker; author-reported)
+  architecture: Encoder-based / Cross-Encoder
+  training: Calibration Training
+  rl: 'No'
+  rl_status: Public CE + Brier recipe is not policy-gradient RL
+  ar: 'No'
+  decision_mechanism: Option-marker / NLI
+  outputs: [Noul, Choice, Score]
+  weights: Partial
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/wfzyx/von/blob/14d09878e89b103bfbbe641f9bed02e4d72c8830/README.md
+    supports: [training, variants, outputs]
+    level: Author documentation
+  - url: https://github.com/wfzyx/von/blob/14d09878e89b103bfbbe641f9bed02e4d72c8830/src/von/engine.py
+    supports: [separate_nli_and_marker_backends]
+    level: Source excerpt inspected
+  notes:
+    en: "README calls CE+Brier RLCD, but that is a supervised objective. OptionMarker and von-1.0 NLI are distinct backends; do not assign one checkpoint's parameters or scores to the other. No universal calibration guarantee is inferred."
+    zh: "README 把 CE+Brier 称作 RLCD，但公开公式属于监督目标。OptionMarker 与 von-1.0 NLI 是不同后端，不能混用权重、参数量和指标，也不据此承诺普遍校准。"
+    ja: "README は CE+Brier を RLCD と呼ぶが公開式は教師あり目的である。OptionMarker と von-1.0 NLI は別 backend で、重み・規模・評価値を混同しない。"
+- id: decider
+  name: decider
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/Mapika/decider
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/Mapika/decider-2b
+  backbone: Qwen3.5 family
+  params: 0.8B / 2B / 34.7B total, 3B active
+  architecture: Hybrid + Decision Head
+  training: Multi-stage
+  rl: RLCR-like
+  rl_status: 2B v10 has PPO + belief calibration; 35B v1 has no RL
+  ar: 'No'
+  decision_mechanism: Label-token projection
+  outputs: [Noul, Choice, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/README.md
+    supports: [backbone, variants, readout, caching, weights]
+    level: Implementation documentation
+  - url: https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/MODEL_CARD.md
+    supports: [ppo, proper_log_score, version_specific_rl]
+    level: Model card
+  notes:
+    en: "Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning and consistency; 35B remains supervised. RLCR-like describes the objective family, not reproduction of the RLCR paper or TypeSafe RLCD."
+    zh: "修正旧版“无 RL”：2B v10 增加 PPO、proper log-score belief 学习及一致性项；35B 仍是监督训练。RLCR-like 仅指目标类别，不代表复现该论文或 TypeSafe RLCD。"
+    ja: "旧来の No RL を修正。2B v10 は PPO、proper log-score の belief 学習、一貫性項を追加し、35B は教師ありのまま。RLCR-like は目的の分類であり論文や公式 RLCD の再現ではない。"
+- id: mini-jev
+  name: mini-Jev
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/r-ms/mini-jev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3-4B-Instruct-2507
+  params: 4B
+  architecture: AR LLM
+  training: None
+  rl: 'No'
+  rl_status: Frozen comparison study
+  ar: 'No'
+  decision_mechanism: Next-token logits / Verbalizer
+  outputs: [Choice, Binary]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: 'yes', multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/r-ms/mini-jev/blob/main/README.md
+    supports: [backbone, enum_readout, generated_extensions, score_not_measured]
+    level: Experimental method documentation
+  notes:
+    en: "No AR decoding for bounded enums/Booleans. Optional strings and numbers still use generated output, outside this row. Score was not measured; normalized candidate scores are explicitly uncalibrated."
+    zh: "有限 enum 与 Boolean 路径不做 AR 解码；可选字符串、数值字段仍生成文本，不属于本行范围。Score 未测，候选归一化分数明确未校准。"
+    ja: "有限 enum と Boolean は AR decoding を使わない。任意の文字列・数値の生成はこの行の対象外。Score は未測定で、候補スコアは未校正と明記されている。"
+- id: litjev
+  name: LitJev
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/zhengxuyu/litjev/blob/main/CITATION.cff
+    kind: Citation metadata inspected; no date-released field
+    date: null
+  github: https://github.com/zhengxuyu/litjev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen family
+  params: 27B default; configurable
+  architecture: AR LLM
+  training: None
+  rl: 'No'
+  rl_status: Frozen direct-readout path
+  ar: 'No'
+  decision_mechanism: Next-token logits
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/zhengxuyu/litjev/blob/main/README.md
+    supports: [configured_backbone, training, outputs, optional_calibration]
+    level: Author documentation
+  notes:
+    en: "Direct output-head scoring with optional temperature fitting. The configured Qwen default is recorded as the repository's declaration, not as an independent validation of every supported checkpoint or shared-state speedup."
+    zh: "直接读取 output head，可选温度拟合。Qwen 默认型号按仓库声明记录，不代表逐一验证所有底座或共享状态加速。"
+    ja: "output head を直接読み、温度調整は任意。Qwen の既定値はリポジトリの宣言であり、全 checkpoint や共有状態の高速化を独立検証したものではない。"
+- id: zhihz-openjev
+  name: Open JEV (zhihz)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/zhihz/openjev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3-4B-Instruct-2507
+  params: 4B
+  architecture: AR LLM
+  training: None
+  rl: 'No'
+  rl_status: Explicitly no RLCD implementation
+  ar: 'No'
+  decision_mechanism: Next-token logits / Verbalizer
+  outputs: [Choice, Binary]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: 'no', multi_q: 'yes', parallel_q: 'no', non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/zhihz/openjev/blob/main/README.md
+    supports: [backbone, sequential_questions, reencoding, outputs, no_rlcd]
+    level: Implementation documentation
+  notes:
+    en: "Questions are sequential and re-encode context; shared computation is planned, not delivered. Choice/Binary are the documented paths; experimental Score is not quality-validated."
+    zh: "问题顺序执行并重复编码上下文，共享计算仍是计划。已验证路径为 Choice/Binary，实验性 Score 未完成质量验证。"
+    ja: "質問を順番に処理し、文脈を再エンコードする。共有計算は未実装。文書化された経路は Choice/Binary で、実験的 Score の品質検証は未完了。"
+- id: dasein-openjev
+  name: open-jev (daseinlabs)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/daseinlabs/open-jev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Gemma 3 4B
+  params: 4B + optional head
+  architecture: AR LLM / Option Scorer
+  training: None / Head-only
+  rl: 'No'
+  rl_status: Optional supervised head training
+  ar: 'No'
+  decision_mechanism: Option likelihood / head
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: partial, multi_q: 'yes', parallel_q: 'no', non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/daseinlabs/open-jev/blob/main/README.md
+    supports: [backbone, teacher_forced_likelihood, option_batch_cache, head_training]
+    level: Implementation documentation
+  notes:
+    en: "Scores all tokens of supplied continuations with teacher forcing, not only the first label token. AR factorization does not imply sampled decoding. Cache is shared across options within a question; optional CE-trained attention head is separate."
+    zh: "对已给出的候选续写做 teacher-forced 全 token 似然评分，不仅是首 token。AR 分解不代表采样解码。缓存共享发生在单问题的候选之间；另有可选 CE attention head。"
+    ja: "与えられた候補文の全 token を teacher forcing で評価する。AR 分解でも生成 decoding は不要。キャッシュ共有は質問内の候補間で、任意の CE 学習 head は別経路。"
+- id: reflex
+  name: reflex
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/kshetrajna12/reflex
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3.5-4B (stable)
+  params: 4B default
+  architecture: AR LLM
+  training: None
+  rl: 'No'
+  rl_status: Stable manifest selects frozen weights
+  ar: 'No'
+  decision_mechanism: Next-token logits
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/kshetrajna12/reflex/blob/main/README.md
+    supports: [stable_recipe, two_order_ensemble, no_adapter, no_calibration_file]
+    level: Release documentation
+  notes:
+    en: "Current stable recipe is frozen 4B, two option orders, no adapter and no calibration file. Historical LoRA/distillation experiments do not mean the stable release is fine-tuned. A moving tag is not an immutable release."
+    zh: "当前 stable 是冻结 4B、两个选项顺序平均、无 adapter 且无校准文件。历史 LoRA/蒸馏实验不能算作当前默认训练；移动 tag 不是不可变发布。"
+    ja: "現在の stable は凍結 4B、二つの候補順序、adapter と校正ファイルなし。過去の LoRA・蒸留実験と既定の公開経路を分ける。移動 tag は不変の release ではない。"
+- id: verdict
+  name: Verdict / OpenJev
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/Heman10x-NGU/Verdict-open-jev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/heman10x/rlcd-modernbert-151m
+  backbone: ModernBERT-base + GLiClass
+  params: 151M (author-reported)
+  architecture: Encoder-based
+  training: Calibration Training
+  rl: 'No'
+  rl_status: CE + Brier; RLCD branding does not establish RL
+  ar: 'No'
+  decision_mechanism: Joint label / context scoring head
+  outputs: [Noul, Choice, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/Heman10x-NGU/Verdict-open-jev/blob/main/README.md
+    supports: [backbone, joint_encoding, outputs, weights, calibration]
+    level: Author documentation
+  notes:
+    en: "Jointly encodes context and labels; do not infer an independent dual-encoder from the author's head name. Published calibration objectives are not proof of policy-gradient RL. The separate 2.0 repository requires version-specific auditing."
+    zh: "上下文与标签联合编码，不能仅凭 head 名称判为独立 dual-encoder。公开校准目标不构成 policy-gradient RL 证据；独立 2.0 仓库需按版本另审。"
+    ja: "文脈とラベルを共同エンコードするため、head 名だけで独立 dual-encoder としない。校正目的は policy-gradient RL の証明ではない。別の 2.0 リポジトリは個別確認が必要。"
+- id: eve-rlcd
+  name: eve-rlcd
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/anthony-maio/eve-rlcd/releases/tag/data-v1
+    kind: Dataset release; its September 17 build date is not the public release date
+    date: '2026-09-18'
+  github: https://github.com/anthony-maio/eve-rlcd
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/anthonym21/qwen3-0.6b-rlcd-decision
+  backbone: Qwen3-0.6B-Base
+  params: 0.6B
+  architecture: AR LLM
+  training: SFT + RL
+  rl: RLCD (claimed)
+  rl_status: Independent bandit REINFORCE recipe; not official TypeSafe RLCD
+  ar: 'No'
+  decision_mechanism: Next-token logits / Verbalizer
+  outputs: [Noul, Choice, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/anthony-maio/eve-rlcd/blob/main/README.md
+    supports: [backbone, readout, bandit_feedback, reward, weights, shared_cache]
+    level: Detailed experimental specification
+  - url: https://github.com/anthony-maio/eve-rlcd/blob/57a179b7b1bedc80f65bf42ccda129dd1888272f/rlcd/rewards.py
+    supports: [reward_definition]
+    level: Source excerpt inspected
+  notes:
+    en: "Samples an option; correctness feedback c gives reward c-p(a), with a leave-one-out baseline. This is an independent REINFORCE calibration experiment. Score scaling and wire fields are not identical to TypeSafe's API."
+    zh: "采样选项后取得正确性 c，以 c-p(a) 为奖励并采用 leave-one-out baseline。这是独立 REINFORCE 校准实验，Score 尺度和字段不与 TypeSafe API 完全一致。"
+    ja: "候補をサンプルし、正誤 c から c-p(a) を報酬にする独自 REINFORCE 実験。leave-one-out baseline を使う。Score の尺度や API field は TypeSafe と同一ではない。"
+- id: minojev
+  name: minojev
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/zeredy879/minojev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/zeredy879/minojev
+  backbone: Qwen3-1.7B
+  params: 1.7B + approximately 0.8M head
+  architecture: AR LLM + Decision Head
+  training: Head-only
+  rl: 'No'
+  rl_status: Distribution losses and post-hoc temperature
+  ar: 'No'
+  decision_mechanism: Option-wise scoring
+  outputs: [Choice, Binary, Score]
+  weights: Partial
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/zeredy879/minojev/blob/main/README.md
+    supports: [current_backbone, cached_features, head_training, calibration]
+    level: Release documentation
+  notes:
+    en: "Updated from the stale 547K-only description. Current documented release freezes Qwen3-1.7B, caches candidate features and trains a roughly 0.8M scorer; a separate zero-training logit path is available. Domain transfer is limited in the reported tests."
+    zh: "修正过时的“仅 547K”描述。当前公开路径冻结 Qwen3-1.7B、缓存候选特征并训练约 0.8M scorer，另有零训练 logits 路径；作者报告了跨域退化。"
+    ja: "古い 547K のみという説明を更新。現在は Qwen3-1.7B を凍結し、候補特徴から約 0.8M の scorer を学習する。訓練不要の logits 経路もあり、領域転移の限界が報告されている。"
+- id: luce
+  name: Luce
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/scienthoon/luce
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3 / Qwen2.5
+  params: 4B default
+  architecture: AR LLM + Decision Head
+  training: Distillation + LoRA + Head
+  rl: 'No'
+  rl_status: Teacher-generated or annotated supervised data
+  ar: 'No'
+  decision_mechanism: Decision Head / Verbalizer
+  outputs: [Noul, Choice, Score]
+  weights: Unknown
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/scienthoon/luce/blob/main/README.md
+    supports: [backbone, training, modes, outputs, calibration, transfer_limits]
+    level: Method documentation
+  notes:
+    en: "Recipe for task-specific synthesis/annotation, LoRA and a decision head. Several modes exist; do not assign one attention layout to all. Public code is verified, but a downloadable project checkpoint was not verified in this audit."
+    zh: "面向具体任务的数据合成/标注、LoRA 与 Decision Head 配方。存在多种 mode，不能统一假定 attention 结构。本轮确认代码可见，但未核实可下载的项目 checkpoint。"
+    ja: "タスク別のデータ生成・注釈、LoRA、Decision Head の手順を提供する。複数 mode があるため単一の attention 構造としない。公開コードは確認したが checkpoint の配布は未確認。"
+- id: poorjev
+  name: poorjev
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/rupeshpoojary9/poorjev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Zero-shot NLI encoders
+  params: Configuration-dependent
+  architecture: Cross-Encoder
+  training: Calibration Training
+  rl: 'No'
+  rl_status: Post-hoc calibration; no RL shown
+  ar: 'No'
+  decision_mechanism: NLI option-wise scoring
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/rupeshpoojary9/poorjev/blob/main/README.md
+    supports: [nli_route, outputs, calibration_evaluation]
+    level: Author documentation
+  notes:
+    en: "NLI-based decision interface with temperature and abstention utilities. Finite-set ECE and conformal coverage are different claims; neither makes every probability universally calibrated. Multi-question batching is not demonstrated shared representation reuse."
+    zh: "基于 NLI 的决策接口，包含温度和拒答工具。有限样本 ECE 与 conformal coverage 是不同性质，均不保证所有概率普遍校准。多问题 batch 不代表共享表示复用。"
+    ja: "NLI に温度調整・棄却の仕組みを加える。ECE と conformal coverage は異なる主張で、普遍的な確率校正を保証しない。質問 batch と表現共有を区別する。"
+- id: jevbetter
+  name: jevbetter
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/olanotolu/jevbetter
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Custom / frozen HF encoder
+  params: Configuration-dependent
+  architecture: Option Scorer
+  training: SFT / Head-only
+  rl: 'No'
+  rl_status: Supervised learning and temperature scaling
+  ar: 'No'
+  decision_mechanism: Option-wise scoring
+  outputs: [Choice, Ranking, Probability Distribution]
+  weights: Unknown
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: partial, multi_q: unknown, parallel_q: unknown, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/olanotolu/jevbetter/blob/main/README.md
+    supports: [architecture, training, option_interaction, calibration]
+    level: Implementation documentation
+  notes:
+    en: "Hashed character n-grams, two-layer context Transformer, option interaction and gated MLP. Context sharing concerns candidates in one menu, not independently isolated questions. No general released checkpoint verified."
+    zh: "哈希字符 n-gram、两层上下文 Transformer、选项交互与 gated MLP。共享上下文针对同一候选菜单，不等于独立多问题；本轮未核实通用公开 checkpoint。"
+    ja: "ハッシュ化文字 n-gram、二層の文脈 Transformer、候補間 attention、gated MLP を使う。共有は候補メニュー内であり、独立質問の共有ではない。汎用 checkpoint は未確認。"
+- id: jevforge
+  name: JevForge
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/zwliJay/jev-forge
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/AndeyTait/JevForge-0.8B
+  backbone: Qwen3.5-0.8B / Qwen3-0.6B
+  params: 0.8B + scorer
+  architecture: AR LLM + Decision Head
+  training: SFT; RL prototype
+  rl: RLCD (claimed)
+  rl_status: Preliminary grouped sampling + utility + Brier + KL
+  ar: 'No'
+  decision_mechanism: Option-wise scoring
+  outputs: [Noul, Choice, Score]
+  weights: 'Yes'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'no', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/zwliJay/jev-forge/blob/main/README.md
+    supports: [backbone, k_rows, two_layer_head, sft, rl_prototype, weights]
+    level: Implementation documentation
+  notes:
+    en: "Expands each question into K repeated-state candidate rows, pools the last valid token and applies a shared GELU scorer. RLCD is a preliminary independent path; it is not the official reward recipe or native shared-state execution."
+    zh: "每个问题展开成 K 个重复 state 的候选行，池化最后有效 token 后用共享 GELU scorer。RLCD 是独立初步实验，不是官方配方，也不是原生共享状态执行。"
+    ja: "質問ごとに同じ state を含む K 行へ展開し、最後の有効 token と共有 GELU scorer を使う。RLCD は独自の予備実験で、公式手法や native な state 共有ではない。"
+- id: system-one-open
+  name: System One Open
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/mithalouni/system-one-open
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Gemma 4 E2B / Gemma 3 270M
+  params: E2B (vendor label) / 270M
+  architecture: AR LLM + Decision Head
+  training: LoRA / SFT
+  rl: 'No'
+  rl_status: CE + Brier and temperature fitting
+  ar: 'No'
+  decision_mechanism: Label-token slots
+  outputs: [Noul, Choice, Score]
+  weights: 'No'
+  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: partial, multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  evidence:
+  - url: https://github.com/mithalouni/system-one-open/blob/main/README.md
+    supports: [backbone, training, slot_readout, chunking, weights_pending]
+    level: Implementation documentation
+  notes:
+    en: "One-pass label slots for up to 52 candidates; larger sets use chunks and a final round. README says weights reside on the author's Modal volume and HF upload is pending, so public project weights are not marked available."
+    zh: "52 个以内候选采用单次 label slot 读取，更多候选使用分块与最终选择。README 说权重在作者 Modal volume、HF 上传待完成，因此不标记公开权重可用。"
+    ja: "52 候補までは label slot、超える場合は分割と最終選択を行う。重みは作者の Modal volume にあり HF 公開待ちと記載されるため、公開重みありとはしない。"
