@@ -7,6 +7,7 @@ import argparse
 import sys
 from pathlib import Path
 import yaml
+from github_stars import annotate_readme, load_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 LANGUAGES = {'en': 'README.md', 'zh': 'README.zh-CN.md', 'ja': 'README.ja.md'}
@@ -185,7 +186,7 @@ def render_evidence(data):
 
 def outputs(root: Path = ROOT):
     data,papers,lists=load_data(root)
-    return {**{path:render_readme(lang,data,papers,lists) for lang,path in LANGUAGES.items()},
+    return {**{path:annotate_readme(render_readme(lang,data,papers,lists),lang,load_snapshot(root)) for lang,path in LANGUAGES.items()},
             'docs/evidence.md':render_evidence(data)}
 
 

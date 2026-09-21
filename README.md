@@ -1,5 +1,7 @@
 # Awesome Jev
 
+> **Frequent, real-time updates ahead:** This repository will be updated intensively in the near term, tracking new Jev / System One Models implementations, architectures, training methods, and evaluations.
+
 [English](README.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 A curated, research-oriented map of Jev and System One Models — open-source implementations, architectures, training, calibrated decisions, and evaluation.
@@ -18,31 +20,33 @@ Audit snapshot: **2026-09-21** · 1 official reference + 21 independent implemen
 
 **AR** means token-by-token decision generation, not backbone pretraining. **Weights** means project-specific artifacts: Partial = adapter/head; ❌ can still use open upstream weights. N/C/S = Noul/Choice/Score; B/P/R = Binary/Probability Distribution/Ranking. Version details and sources: [evidence index](docs/evidence.md).
 
+**GitHub Stars** snapshot: 2026-09-21T10:03:46Z. Popularity only, not a quality ranking; the existing ordering is unchanged. — = no model repository. [Snapshot / API sources](data/github-stars.json).
+
 <!-- landscape:start -->
-| Project | Release Date | Backbone | Params | Architecture | Training | RL / RLCD | AR | Decision Mechanism | Outputs | Weights |
-|---|---|---|---|---|---|---|---|---|---|---|
-| [Official Jev](https://github.com/typesafe-ai) | Unknown | Not disclosed | Not disclosed | Custom / Not Disclosed | Not disclosed | RLCD | No | Not disclosed | N/C/S | API only |
-| [SemIf](https://github.com/TheoLeeCJ/SemIf) | Unknown | Qwen3.5 / MiniCPM5 / Qwen3 | 0.6B / 2B / 4B | AR LLM | None | No | No | Next-token logits | C/B/P | ❌ |
-| [OpenJev / DiffusionGemma](https://github.com/razorback16/openjev) | Unknown | DiffusionGemma 26B-A4B | 26B total / approximately 4B active | Diffusion / Masked | None | No | No | Masked decision slots | N/C/S | ❌ |
-| [Kev](https://github.com/jaredpalmer/kev) | Unknown | Qwen3.5; earlier Qwen3 | 0.8B / 4B / 9B | AR LLM + Pointer Head | LoRA + Decision Head | No | No | Pointer head | N/C/S | Partial |
-| [NanoJev](https://github.com/TianyuCodings/NanoJev) | Unknown | Qwen3-0.6B | 0.6B + heads | AR LLM + Decision Head | SFT; RL prototype | RLCD (claimed) | No | Option-wise scoring | C/B/S | ✅ |
-| [jevlike](https://github.com/vinnylarouge/jevlike) | Unknown | Custom / frozen HF encoder | Configuration-dependent | Option Scorer | Head-only / from scratch | No | No | Option-wise scoring | C/P | Partial |
-| [Laya](https://github.com/NandhaKishorM/laya) | Unknown | ModernBERT / mmBERT | 421M / 322M (author-reported) | Encoder-based | Full FT + RL | RLCD (claimed) | No | Option-marker head | N/C/S | ✅ |
-| [Von](https://github.com/wfzyx/von) | Unknown | ModernBERT variants | 395M (OptionMarker; author-reported) | Encoder-based / Cross-Encoder | Calibration Training | No | No | Option-marker / NLI | N/C/S | Partial |
-| [decider](https://github.com/Mapika/decider) | Unknown | Qwen3.5 family | 0.8B / 2B / 34.7B total, 3B active | Hybrid + Decision Head | Multi-stage | RLCR-like | No | Label-token projection | N/C/S | ✅ |
-| [mini-Jev](https://github.com/r-ms/mini-jev) | Unknown | Qwen3-4B-Instruct-2507 | 4B | AR LLM | None | No | No | Next-token logits / Verbalizer | C/B | ❌ |
-| [LitJev](https://github.com/zhengxuyu/litjev) | Unknown | Qwen family | 27B default; configurable | AR LLM | None | No | No | Next-token logits | N/C/S | ❌ |
-| [Open JEV (zhihz)](https://github.com/zhihz/openjev) | Unknown | Qwen3-4B-Instruct-2507 | 4B | AR LLM | None | No | No | Next-token logits / Verbalizer | C/B | ❌ |
-| [open-jev (daseinlabs)](https://github.com/daseinlabs/open-jev) | Unknown | Gemma 3 4B | 4B + optional head | AR LLM / Option Scorer | None / Head-only | No | No | Option likelihood / head | N/C/S | ❌ |
-| [reflex](https://github.com/kshetrajna12/reflex) | Unknown | Qwen3.5-4B (stable) | 4B default | AR LLM | None | No | No | Next-token logits | N/C/S | ❌ |
-| [Verdict / OpenJev](https://github.com/Heman10x-NGU/Verdict-open-jev) | Unknown | ModernBERT-base + GLiClass | 151M (author-reported) | Encoder-based | Calibration Training | No | No | Joint label / context scoring head | N/C/S | ✅ |
-| [eve-rlcd](https://github.com/anthony-maio/eve-rlcd) | Unknown | Qwen3-0.6B-Base | 0.6B | AR LLM | SFT + RL | RLCD (claimed) | No | Next-token logits / Verbalizer | N/C/S | ✅ |
-| [minojev](https://github.com/zeredy879/minojev) | Unknown | Qwen3-1.7B | 1.7B + approximately 0.8M head | AR LLM + Decision Head | Head-only | No | No | Option-wise scoring | C/B/S | Partial |
-| [Luce](https://github.com/scienthoon/luce) | Unknown | Qwen3 / Qwen2.5 | 4B default | AR LLM + Decision Head | Distillation + LoRA + Head | No | No | Decision Head / Verbalizer | N/C/S | Unknown |
-| [poorjev](https://github.com/rupeshpoojary9/poorjev) | Unknown | Zero-shot NLI encoders | Configuration-dependent | Cross-Encoder | Calibration Training | No | No | NLI option-wise scoring | N/C/S | ❌ |
-| [jevbetter](https://github.com/olanotolu/jevbetter) | Unknown | Custom / frozen HF encoder | Configuration-dependent | Option Scorer | SFT / Head-only | No | No | Option-wise scoring | C/R/P | Unknown |
-| [JevForge](https://github.com/zwliJay/jev-forge) | Unknown | Qwen3.5-0.8B / Qwen3-0.6B | 0.8B + scorer | AR LLM + Decision Head | SFT; RL prototype | RLCD (claimed) | No | Option-wise scoring | N/C/S | ✅ |
-| [System One Open](https://github.com/mithalouni/system-one-open) | Unknown | Gemma 4 E2B / Gemma 3 270M | E2B (vendor label) / 270M | AR LLM + Decision Head | LoRA / SFT | No | No | Label-token slots | N/C/S | ❌ |
+| Project | GitHub Stars | Release Date | Backbone | Params | Architecture | Training | RL / RLCD | AR | Decision Mechanism | Outputs | Weights |
+| --- | ---: | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [Official Jev](https://github.com/typesafe-ai) | — | Unknown | Not disclosed | Not disclosed | Custom / Not Disclosed | Not disclosed | RLCD | No | Not disclosed | N/C/S | API only |
+| [SemIf](https://github.com/TheoLeeCJ/SemIf) | [2,750](https://github.com/TheoLeeCJ/SemIf/stargazers) | Unknown | Qwen3.5 / MiniCPM5 / Qwen3 | 0.6B / 2B / 4B | AR LLM | None | No | No | Next-token logits | C/B/P | ❌ |
+| [OpenJev / DiffusionGemma](https://github.com/razorback16/openjev) | [245](https://github.com/razorback16/openjev/stargazers) | Unknown | DiffusionGemma 26B-A4B | 26B total / approximately 4B active | Diffusion / Masked | None | No | No | Masked decision slots | N/C/S | ❌ |
+| [Kev](https://github.com/jaredpalmer/kev) | [1,535](https://github.com/jaredpalmer/kev/stargazers) | Unknown | Qwen3.5; earlier Qwen3 | 0.8B / 4B / 9B | AR LLM + Pointer Head | LoRA + Decision Head | No | No | Pointer head | N/C/S | Partial |
+| [NanoJev](https://github.com/TianyuCodings/NanoJev) | [1,672](https://github.com/TianyuCodings/NanoJev/stargazers) | Unknown | Qwen3-0.6B | 0.6B + heads | AR LLM + Decision Head | SFT; RL prototype | RLCD (claimed) | No | Option-wise scoring | C/B/S | ✅ |
+| [jevlike](https://github.com/vinnylarouge/jevlike) | [1,132](https://github.com/vinnylarouge/jevlike/stargazers) | Unknown | Custom / frozen HF encoder | Configuration-dependent | Option Scorer | Head-only / from scratch | No | No | Option-wise scoring | C/P | Partial |
+| [Laya](https://github.com/NandhaKishorM/laya) | [6,698](https://github.com/NandhaKishorM/laya/stargazers) | Unknown | ModernBERT / mmBERT | 421M / 322M (author-reported) | Encoder-based | Full FT + RL | RLCD (claimed) | No | Option-marker head | N/C/S | ✅ |
+| [Von](https://github.com/wfzyx/von) | [297](https://github.com/wfzyx/von/stargazers) | Unknown | ModernBERT variants | 395M (OptionMarker; author-reported) | Encoder-based / Cross-Encoder | Calibration Training | No | No | Option-marker / NLI | N/C/S | Partial |
+| [decider](https://github.com/Mapika/decider) | [180](https://github.com/Mapika/decider/stargazers) | Unknown | Qwen3.5 family | 0.8B / 2B / 34.7B total, 3B active | Hybrid + Decision Head | Multi-stage | RLCR-like | No | Label-token projection | N/C/S | ✅ |
+| [mini-Jev](https://github.com/r-ms/mini-jev) | [38](https://github.com/r-ms/mini-jev/stargazers) | Unknown | Qwen3-4B-Instruct-2507 | 4B | AR LLM | None | No | No | Next-token logits / Verbalizer | C/B | ❌ |
+| [LitJev](https://github.com/zhengxuyu/litjev) | [35](https://github.com/zhengxuyu/litjev/stargazers) | Unknown | Qwen family | 27B default; configurable | AR LLM | None | No | No | Next-token logits | N/C/S | ❌ |
+| [Open JEV (zhihz)](https://github.com/zhihz/openjev) | [26](https://github.com/zhihz/openjev/stargazers) | Unknown | Qwen3-4B-Instruct-2507 | 4B | AR LLM | None | No | No | Next-token logits / Verbalizer | C/B | ❌ |
+| [open-jev (daseinlabs)](https://github.com/daseinlabs/open-jev) | [82](https://github.com/daseinlabs/open-jev/stargazers) | Unknown | Gemma 3 4B | 4B + optional head | AR LLM / Option Scorer | None / Head-only | No | No | Option likelihood / head | N/C/S | ❌ |
+| [reflex](https://github.com/kshetrajna12/reflex) | [90](https://github.com/kshetrajna12/reflex/stargazers) | Unknown | Qwen3.5-4B (stable) | 4B default | AR LLM | None | No | No | Next-token logits | N/C/S | ❌ |
+| [Verdict / OpenJev](https://github.com/Heman10x-NGU/Verdict-open-jev) | [57](https://github.com/Heman10x-NGU/Verdict-open-jev/stargazers) | Unknown | ModernBERT-base + GLiClass | 151M (author-reported) | Encoder-based | Calibration Training | No | No | Joint label / context scoring head | N/C/S | ✅ |
+| [eve-rlcd](https://github.com/anthony-maio/eve-rlcd) | [3](https://github.com/anthony-maio/eve-rlcd/stargazers) | Unknown | Qwen3-0.6B-Base | 0.6B | AR LLM | SFT + RL | RLCD (claimed) | No | Next-token logits / Verbalizer | N/C/S | ✅ |
+| [minojev](https://github.com/zeredy879/minojev) | [25](https://github.com/zeredy879/minojev/stargazers) | Unknown | Qwen3-1.7B | 1.7B + approximately 0.8M head | AR LLM + Decision Head | Head-only | No | No | Option-wise scoring | C/B/S | Partial |
+| [Luce](https://github.com/scienthoon/luce) | [7](https://github.com/scienthoon/luce/stargazers) | Unknown | Qwen3 / Qwen2.5 | 4B default | AR LLM + Decision Head | Distillation + LoRA + Head | No | No | Decision Head / Verbalizer | N/C/S | Unknown |
+| [poorjev](https://github.com/rupeshpoojary9/poorjev) | [4](https://github.com/rupeshpoojary9/poorjev/stargazers) | Unknown | Zero-shot NLI encoders | Configuration-dependent | Cross-Encoder | Calibration Training | No | No | NLI option-wise scoring | N/C/S | ❌ |
+| [jevbetter](https://github.com/olanotolu/jevbetter) | [13](https://github.com/olanotolu/jevbetter/stargazers) | Unknown | Custom / frozen HF encoder | Configuration-dependent | Option Scorer | SFT / Head-only | No | No | Option-wise scoring | C/R/P | Unknown |
+| [JevForge](https://github.com/zwliJay/jev-forge) | [6](https://github.com/zwliJay/jev-forge/stargazers) | Unknown | Qwen3.5-0.8B / Qwen3-0.6B | 0.8B + scorer | AR LLM + Decision Head | SFT; RL prototype | RLCD (claimed) | No | Option-wise scoring | N/C/S | ✅ |
+| [System One Open](https://github.com/mithalouni/system-one-open) | [23](https://github.com/mithalouni/system-one-open/stargazers) | Unknown | Gemma 4 E2B / Gemma 3 270M | E2B (vendor label) / 270M | AR LLM + Decision Head | LoRA / SFT | No | No | Label-token slots | N/C/S | ❌ |
 <!-- landscape:end -->
 
 ## Jev-like Properties
@@ -145,10 +149,10 @@ Edit the YAML facts and localized notes, then run `python scripts/generate_readm
 
 An awesome list of awesome Jev lists. Known dates first; Unknown does not mean unpublished. Month-only dates do not imply an exact day.
 
-| Repository | Release Date | Languages | Focus | Notes |
-|---|---|---|---|---|
-| [OmniJev/awesome-jev-gallery](https://github.com/OmniJev/awesome-jev-gallery) | 2026-09 | English | Research / Ecosystem | Papers, open models, evaluations and ecosystem resources; canonical renamed repository. |
-| [Zhao-Tian-yi/awesome-jev](https://github.com/Zhao-Tian-yi/awesome-jev) | 2026-09-21 | English / 简体中文 / 日本語 | Research | Yes, this repo is now part of an awesome list of awesome Jev lists. |
-| [yibie/awesome-jev](https://github.com/yibie/awesome-jev) | Unknown | English | Applications / Ecosystem | Application-domain catalogue with explicit curation and evidence caveats. |
-| [AnotiaWang/awesome-jev](https://github.com/AnotiaWang/awesome-jev) | Unknown | English / 简体中文 | Ecosystem | Bilingual catalogue of applications, libraries, tools and research. |
-| [hellogumbo/awesome-jev](https://github.com/hellogumbo/awesome-jev) | Unknown | English | Applications / Ecosystem | Application and integration directory with a searchable companion site. |
+| Repository | GitHub Stars | Release Date | Languages | Focus | Notes |
+| --- | ---: | --- | --- | --- | --- |
+| [OmniJev/awesome-jev-gallery](https://github.com/OmniJev/awesome-jev-gallery) | [130](https://github.com/OmniJev/awesome-jev-gallery/stargazers) | 2026-09 | English | Research / Ecosystem | Papers, open models, evaluations and ecosystem resources; canonical renamed repository. |
+| [Zhao-Tian-yi/awesome-jev](https://github.com/Zhao-Tian-yi/awesome-jev) | [1](https://github.com/Zhao-Tian-yi/awesome-jev/stargazers) | 2026-09-21 | English / 简体中文 / 日本語 | Research | Yes, this repo is now part of an awesome list of awesome Jev lists. |
+| [yibie/awesome-jev](https://github.com/yibie/awesome-jev) | [804](https://github.com/yibie/awesome-jev/stargazers) | Unknown | English | Applications / Ecosystem | Application-domain catalogue with explicit curation and evidence caveats. |
+| [AnotiaWang/awesome-jev](https://github.com/AnotiaWang/awesome-jev) | [178](https://github.com/AnotiaWang/awesome-jev/stargazers) | Unknown | English / 简体中文 | Ecosystem | Bilingual catalogue of applications, libraries, tools and research. |
+| [hellogumbo/awesome-jev](https://github.com/hellogumbo/awesome-jev) | [109](https://github.com/hellogumbo/awesome-jev/stargazers) | Unknown | English | Applications / Ecosystem | Application and integration directory with a searchable companion site. |
