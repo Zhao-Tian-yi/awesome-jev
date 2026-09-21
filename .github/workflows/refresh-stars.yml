@@ -3,12 +3,15 @@ name: Refresh GitHub Stars
 on:
   workflow_dispatch:
   push:
-    branches: [master]
     paths:
       - .github/workflows/refresh-stars.yml
+      - scripts/generate_readme.py
       - scripts/github_stars.py
+      - scripts/test_presentation.py
       - data/projects.yaml
       - data/awesome-lists.yaml
+      - data/papers.yaml
+      - data/updates.yaml
 
 permissions:
   contents: write
@@ -19,47 +22,35 @@ concurrency:
 
 jobs:
   refresh:
-    if: github.repository == 'Zhao-Tian-yi/awesome-jev' && github.ref == 'refs/heads/master'
+    if: github.repository == 'Zhao-Tian-yi/awesome-jev' && startsWith(github.ref, 'refs/heads/')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.ref_name }}
       - name: Install YAML parser
         run: python -m pip install 'PyYAML>=6,<7'
-      - name: Ensure the canonical generator uses the star snapshot
+      - name: Test rendering before refreshing metadata
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('scripts/generate_readme.py')
-          text = path.read_text(encoding='utf-8')
-          hook = 'from github_stars import annotate_readme, load_snapshot\n'
-          old = 'path:render_readme(lang,data,papers,lists)'
-          new = 'path:annotate_readme(render_readme(lang,data,papers,lists),lang,load_snapshot(root))'
-          if hook not in text:
-              assert text.count('import yaml\n') == 1 and text.count(old) == 1, 'Generator changed; review the integration before editing.'
-              text = text.replace('import yaml\n', 'import yaml\n' + hook, 1).replace(old, new, 1)
-              path.write_text(text, encoding='utf-8')
-          else:
-              assert new in text, 'Partial star integration; manual review required.'
-          PY
+          python scripts/github_stars.py --self-test
+          python scripts/test_presentation.py
       - name: Read repository star counts
         env:
           GH_TOKEN: ${{ github.token }}
         run: python scripts/github_stars.py --refresh
       - name: Generate and validate all three languages
         run: |
-          python scripts/github_stars.py --self-test
           python scripts/generate_readme.py
           python scripts/validate.py
           python scripts/generate_readme.py --check
+          python scripts/test_presentation.py
           git diff --check
-      - name: Commit the snapshot and generated pages
+      - name: Commit generated files
         run: |
-          git add data/github-stars.json scripts/generate_readme.py README.md README.zh-CN.md README.ja.md
+          git add data/github-stars.json README.md README.zh-CN.md README.ja.md docs/evidence.md docs/comparison.md docs/updates.md
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Add GitHub Stars columns and intensive-update notices across three languages'
-          git push origin HEAD:master
+          git commit -m 'Refresh star snapshot and regenerate research map'
+          git push origin "HEAD:${GITHUB_REF_NAME}"

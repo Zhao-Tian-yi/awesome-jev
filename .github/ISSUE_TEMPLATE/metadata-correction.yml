@@ -1,0 +1,29 @@
+name: Correct an entry / 纠正条目 / 項目を訂正
+description: Report a wrong field, stale version, missing artifact or broken link.
+title: 'Correction: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        English, 中文 and 日本語 are welcome. A short correction with a primary source is enough.
+        No YAML edits or translations required. Do not post credentials or private information.
+  - type: input
+    id: project
+    attributes:
+      label: Project or affected page
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: What needs to change?
+      description: State the current value, proposed value and applicable version when known.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or broken URL
+      description: Prefer a source-code permalink, release, model card or official documentation.
+    validations:
+      required: true

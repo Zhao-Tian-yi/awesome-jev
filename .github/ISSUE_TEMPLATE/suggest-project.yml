@@ -1,0 +1,37 @@
+name: Suggest a project / 推荐项目 / 実装を推薦
+description: Share a repository and evidence. No YAML edits or translations required.
+title: 'Add: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A useful lead is enough. English, 中文 and 日本語 are welcome.
+        Maintainers check evidence and synchronize translations before inclusion.
+        Model implementations belong in the core table; API applications and tutorials are separate resources.
+        Please do not include credentials, private datasets or other sensitive information.
+  - type: input
+    id: repository
+    attributes:
+      label: Project or repository URL
+      placeholder: https://github.com/owner/project
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Why should this be included?
+      description: One or two sentences on the decision mechanism, training contribution or evaluation.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: README, model card, source file or training script. Unknown facts can stay unknown.
+    validations:
+      required: true
+  - type: input
+    id: first-public
+    attributes:
+      label: First-public date and source (optional)
+      description: Do not substitute repository creation time or a later release.

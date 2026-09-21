@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: CC-BY-4.0
+# Dates describe this list, never upstream first-public dates. Newest first.
+updates:
+  - id: compact-research-entry
+    date: '2026-09-21'
+    kind: Updated
+    summary:
+      en: Compact eight-column model map, goal-based reading routes, explicit artifact links and lightweight contribution forms; full audited fields retained.
+      zh: 首页精简为八列，新增按需求查找、产物链接与轻量投稿入口；完整核查字段仍保留。
+      ja: モデル表を8列に整理し、目的別の案内、成果物リンク、簡易投稿フォームを追加。検証済みの全項目は維持。
+    url: docs/comparison.md
+  - id: numeric-stars
+    date: '2026-09-21'
+    kind: Added
+    summary:
+      en: Numeric GitHub Stars snapshots and trilingual update notices, without changing chronological curation order.
+      zh: 增加 GitHub Stars 数字快照与三语更新声明，不改变按时间策展的规则。
+      ja: GitHub Stars の数値スナップショットと三言語の更新案内を追加。時系列の収録順は変更せず。
+    url: https://github.com/Zhao-Tian-yi/awesome-jev/commit/fccf8a0ecd6c8d393acd2e734d6572f0c6d1e82c
+  - id: evidence-backed-map
+    date: '2026-09-21'
+    kind: Corrected
+    summary:
+      en: Rebuilt the map from shared YAML; separated decision decoding, backbone families and community RL evidence, with version-specific caveats.
+      zh: 使用统一 YAML 重建技术图谱，区分决策生成、底座架构与社区 RL 证据，并补充版本限制。
+      ja: 共通 YAML から研究マップを再構築。判断の生成方式、backbone、コミュニティ RL の根拠を区別し、版ごとの制約を明記。
+    url: https://github.com/Zhao-Tian-yi/awesome-jev/commit/5b64c6751e5b11597dde04ed73dafe47ba597c0f
