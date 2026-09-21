@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-21T13:48:47Z",
+  "checked_at": "2026-09-21T13:50:39Z",
   "note": "GitHub stargazers_count snapshot; not a quality ranking. Organization pages are not model repositories.",
   "repositories": {
     "anotiawang/awesome-jev": {
@@ -23,7 +23,7 @@
       "source": "https://api.github.com/repos/heman10x-ngu/verdict-open-jev"
     },
     "jaredpalmer/kev": {
-      "stars": 1803,
+      "stars": 1804,
       "source": "https://api.github.com/repos/jaredpalmer/kev"
     },
     "kshetrajna12/reflex": {
@@ -39,7 +39,7 @@
       "source": "https://api.github.com/repos/mithalouni/system-one-open"
     },
     "nandhakishorm/laya": {
-      "stars": 7916,
+      "stars": 7925,
       "source": "https://api.github.com/repos/nandhakishorm/laya"
     },
     "olanotolu/jevbetter": {
@@ -67,11 +67,11 @@
       "source": "https://api.github.com/repos/scienthoon/luce"
     },
     "theoleecj/semif": {
-      "stars": 2870,
+      "stars": 2873,
       "source": "https://api.github.com/repos/theoleecj/semif"
     },
     "tianyucodings/nanojev": {
-      "stars": 1714,
+      "stars": 1715,
       "source": "https://api.github.com/repos/tianyucodings/nanojev"
     },
     "vinnylarouge/jevlike": {
@@ -83,7 +83,7 @@
       "source": "https://api.github.com/repos/wfzyx/von"
     },
     "yibie/awesome-jev": {
-      "stars": 853,
+      "stars": 854,
       "source": "https://api.github.com/repos/yibie/awesome-jev"
     },
     "zeredy879/minojev": {
