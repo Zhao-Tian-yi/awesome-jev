@@ -24,7 +24,7 @@ REQUIRED = {'id','name','official','release_date','release_evidence','github','w
             'rl_status','ar','decision_mechanism','outputs','weights','properties',
             'evidence','notes'}
 PROPS = {'typed','dynamic','variable','native','calibration','shared_state','multi_q','parallel_q','non_ar'}
-MARKERS = ('landscape','properties')
+MARKERS = ('landscape',)
 
 
 def canonical_url(url):

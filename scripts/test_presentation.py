@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Offline regression checks for readability, links, scope and language parity."""
+"""Offline regression checks for the four-section homepage and retained details."""
 from __future__ import annotations
 
 import copy
@@ -29,6 +29,7 @@ class PresentationTests(unittest.TestCase):
         cls.updates = g.load_updates()
         cls.pages = {lang: g.render_readme(lang, cls.data, cls.papers, cls.lists, cls.snapshot, cls.updates)
                      for lang in g.LANGUAGES}
+        cls.generated = g.outputs()
 
     def test_eight_column_landscape(self):
         for text in self.pages.values():
@@ -46,8 +47,7 @@ class PresentationTests(unittest.TestCase):
             self.assertEqual(actual[0], 'Official Jev')
 
     def test_technical_tables_identical(self):
-        for marker in ('landscape', 'properties'):
-            self.assertEqual(len({block(text, marker) for text in self.pages.values()}), 1)
+        self.assertEqual(len({block(text, 'landscape') for text in self.pages.values()}), 1)
 
     def test_three_language_url_parity(self):
         links = [set(re.findall(r'\]\(([^)]+)\)', text)) for text in self.pages.values()]
@@ -57,16 +57,28 @@ class PresentationTests(unittest.TestCase):
         for lang, text in self.pages.items():
             self.assertTrue(text.startswith('# Awesome Jev\n\n> ' + NOTICE[lang]))
             self.assertIn('README.zh-CN.md', text)
-            for target in ('models', 'start-here', 'updates', 'contributing'):
+            for target in ('models', 'start-here', 'official', 'awesome-awesome-jev'):
                 self.assertIn(f'<a id="{target}"></a>', text)
                 self.assertIn(f'](#{target})', text)
+            self.assertNotIn('](#updates)', text)
+            self.assertNotIn('](#contributing)', text)
 
-    def test_capabilities_are_collapsed_not_deleted(self):
+    def test_exactly_four_sections(self):
+        for lang, text in self.pages.items():
+            expected = [g.TEXT[lang]['models'], g.TEXT[lang]['start'],
+                        g.TEXT[lang]['official'], 'Awesome Awesome Jev 😄']
+            self.assertEqual(re.findall(r'^## (.+)$', text, re.MULTILINE), expected)
+            self.assertNotIn('<details>', text)
+            self.assertNotIn('Jevenator', text)
+            self.assertNotIn('arxiv.org', text)
+
+    def test_capabilities_moved_to_details(self):
         for text in self.pages.values():
-            position = text.index('<!-- properties:start -->')
-            self.assertGreater(text.rfind('<details>', 0, position), text.rfind('</details>', 0, position))
-            self.assertIn('</details>', text[position:])
-            self.assertEqual(text.count('<details>'), text.count('</details>'))
+            self.assertNotIn('<!-- properties:start -->', text)
+        comparison = self.generated['docs/comparison.md']
+        self.assertEqual(block(comparison, 'properties').strip(), g.property_table(self.data['projects']))
+        rows = [line for line in block(comparison, 'properties').splitlines() if line.startswith('|')]
+        self.assertEqual(len(rows), len(self.data['projects']) + 2)
 
     def test_artifact_meaning(self):
         p = copy.deepcopy(next(x for x in self.data['projects'] if not x['official']))
@@ -82,6 +94,7 @@ class PresentationTests(unittest.TestCase):
     def test_full_technical_fields_retained(self):
         text = g.full_table(self.data['projects'])
         self.assertIn('AR Decoding', text)
+        self.assertIn(text, self.generated['docs/comparison.md'])
         for p in self.data['projects']:
             for key in ('backbone', 'params', 'architecture', 'training', 'rl', 'decision_mechanism'):
                 self.assertIn(g.esc(p[key]), text)
@@ -97,11 +110,14 @@ class PresentationTests(unittest.TestCase):
                            if line.startswith('| [' + p['name'] + ']'))
                 self.assertEqual(cells(row)[2], 'Unknown')
 
-    def test_recent_updates_separate_from_releases(self):
+    def test_updates_retained_off_homepage(self):
+        log = self.generated['docs/updates.md']
+        for entry in self.updates:
+            self.assertIn(entry['summary']['en'], log)
         for lang, text in self.pages.items():
-            for entry in self.updates[:3]:
-                self.assertIn(entry['summary'][lang], text)
-            self.assertIn('docs/updates.md', text)
+            self.assertNotIn('docs/updates.md', text)
+            for entry in self.updates:
+                self.assertNotIn(entry['summary'][lang], text)
         self.assertEqual([e['date'] for e in self.updates], sorted([e['date'] for e in self.updates], reverse=True))
 
     def test_evidence_correction_links(self):
@@ -127,10 +143,16 @@ class PresentationTests(unittest.TestCase):
             self.assertEqual(text.count('| GitHub Stars |'), 2)
 
     def test_no_mutation_of_source_facts(self):
-        before = copy.deepcopy(self.data)
+        before = copy.deepcopy((self.data, self.papers, self.lists, self.snapshot, self.updates))
         for lang in g.LANGUAGES:
             g.render_readme(lang, self.data, self.papers, self.lists, self.snapshot, self.updates)
-        self.assertEqual(self.data, before)
+        self.assertEqual((self.data, self.papers, self.lists, self.snapshot, self.updates), before)
+
+    def test_navigation_anchors_exist(self):
+        for text in self.pages.values():
+            anchors = set(re.findall(r'<a id="([^"]+)"></a>', text))
+            for target in re.findall(r'\]\(#([^)]+)\)', text):
+                self.assertIn(target, anchors)
 
 
 if __name__ == '__main__':
