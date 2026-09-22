@@ -22,8 +22,8 @@
 | [Official Jev](https://github.com/typesafe-ai) | — | Unknown | Not disclosed<br>Not disclosed | Custom / Not Disclosed<br>Not disclosed | Not disclosed<br>RL: RLCD | [API only](https://typesafe.ai/) | [Sources](docs/evidence.md#official-jev) |
 | [SemIf](https://github.com/TheoLeeCJ/SemIf) | [3,341](https://github.com/TheoLeeCJ/SemIf/stargazers) | Unknown | Qwen3.5 / MiniCPM5 / Qwen3<br>0.6B / 2B / 4B | AR LLM<br>Next-token logits | None<br>RL: No | [Upstream model / setup](https://github.com/TheoLeeCJ/SemIf) | [Sources](docs/evidence.md#semif) |
 | [OpenJev / DiffusionGemma](https://github.com/razorback16/openjev) | [285](https://github.com/razorback16/openjev/stargazers) | Unknown | DiffusionGemma 26B-A4B<br>26B total / approximately 4B active | Diffusion / Masked<br>Masked decision slots | None<br>RL: No | [Upstream weights](https://huggingface.co/nvidia/diffusiongemma-26B-A4B-it-NVFP4) | [Sources](docs/evidence.md#openjev-diffusiongemma) |
-| [Kev](https://github.com/jaredpalmer/kev) | [2,606](https://github.com/jaredpalmer/kev/stargazers) | Unknown | Qwen3.5; earlier Qwen3<br>0.8B / 4B / 9B | AR LLM + Pointer Head<br>Pointer head | LoRA + Decision Head<br>RL: No | [Adapter/head](https://huggingface.co/jaredpalmer/kev-4b) | [Sources](docs/evidence.md#kev) |
-| [NanoJev](https://github.com/TianyuCodings/NanoJev) | [1,851](https://github.com/TianyuCodings/NanoJev/stargazers) | Unknown | Qwen3-0.6B<br>0.6B + heads | AR LLM + Decision Head<br>Option-wise scoring | SFT; RL prototype<br>RL: RLCD (claimed) | [Project weights](https://huggingface.co/C-Tianyu/NanoJev) | [Sources](docs/evidence.md#nanojev) |
+| [Kev](https://github.com/jaredpalmer/kev) | [2,607](https://github.com/jaredpalmer/kev/stargazers) | Unknown | Qwen3.5; earlier Qwen3<br>0.8B / 4B / 9B | AR LLM + Pointer Head<br>Pointer head | LoRA + Decision Head<br>RL: No | [Adapter/head](https://huggingface.co/jaredpalmer/kev-4b) | [Sources](docs/evidence.md#kev) |
+| [NanoJev](https://github.com/TianyuCodings/NanoJev) | [1,852](https://github.com/TianyuCodings/NanoJev/stargazers) | Unknown | Qwen3-0.6B<br>0.6B + heads | AR LLM + Decision Head<br>Option-wise scoring | SFT; RL prototype<br>RL: RLCD (claimed) | [Project weights](https://huggingface.co/C-Tianyu/NanoJev) | [Sources](docs/evidence.md#nanojev) |
 | [jevlike](https://github.com/vinnylarouge/jevlike) | [1,170](https://github.com/vinnylarouge/jevlike/stargazers) | Unknown | Custom / frozen HF encoder<br>Configuration-dependent | Option Scorer<br>Option-wise scoring | Head-only / from scratch<br>RL: No | Adapter/head; see evidence | [Sources](docs/evidence.md#jevlike) |
 | [Laya](https://github.com/NandhaKishorM/laya) | [11,383](https://github.com/NandhaKishorM/laya/stargazers) | Unknown | ModernBERT / mmBERT<br>421M / 322M (author-reported) | Encoder-based<br>Option-marker head | Full FT + RL<br>RL: RLCD (claimed) | [Project weights](https://huggingface.co/convaiinnovations/laya) | [Sources](docs/evidence.md#laya) |
 | [Von](https://github.com/wfzyx/von) | [371](https://github.com/wfzyx/von/stargazers) | Unknown | ModernBERT variants<br>395M (OptionMarker; author-reported) | Encoder-based / Cross-Encoder<br>Option-marker / NLI | Calibration Training<br>RL: No | [Adapter/head](https://huggingface.co/wfzyx/von-1.0) | [Sources](docs/evidence.md#von) |
@@ -43,7 +43,7 @@
 | [System One Open](https://github.com/mithalouni/system-one-open) | [28](https://github.com/mithalouni/system-one-open/stargazers) | Unknown | Gemma 4 E2B / Gemma 3 270M<br>E2B (vendor label) / 270M | AR LLM + Decision Head<br>Label-token slots | LoRA / SFT<br>RL: No | No project-weight release | [Sources](docs/evidence.md#system-one-open) |
 <!-- landscape:end -->
 
-技术核查：**2026-09-21** · Stars 快照：**2026-09-22T03:56:16Z**（[API 来源](data/github-stars.json)）。Unknown 表示首次公开日期未核实；Stars 不代表技术质量。
+技术核查：**2026-09-21** · Stars 快照：**2026-09-22T03:56:53Z**（[API 来源](data/github-stars.json)）。Unknown 表示首次公开日期未核实；Stars 不代表技术质量。
 
 [完整技术对照表](docs/comparison.md) · [证据与版本说明](docs/evidence.md) · [核查限制](docs/audit.md)
 
@@ -84,6 +84,6 @@
 |---|---:|---|---|---|---|
 | [OmniJev/awesome-jev-gallery](https://github.com/OmniJev/awesome-jev-gallery) | [155](https://github.com/OmniJev/awesome-jev-gallery/stargazers) | 2026-09 | English | Research / Ecosystem | 论文、开源模型、评测与生态资源；使用更名后的规范仓库地址。 |
 | [Zhao-Tian-yi/awesome-jev](https://github.com/Zhao-Tian-yi/awesome-jev) | [1](https://github.com/Zhao-Tian-yi/awesome-jev/stargazers) | 2026-09-21 | English / 简体中文 / 日本語 | Research | 是的，本仓库现在也是 awesome Jev 列表的 awesome list 的一员。 |
-| [yibie/awesome-jev](https://github.com/yibie/awesome-jev) | [1,027](https://github.com/yibie/awesome-jev/stargazers) | Unknown | English | Applications / Ecosystem | 按应用领域组织，明确区分收录与质量背书。 |
+| [yibie/awesome-jev](https://github.com/yibie/awesome-jev) | [1,028](https://github.com/yibie/awesome-jev/stargazers) | Unknown | English | Applications / Ecosystem | 按应用领域组织，明确区分收录与质量背书。 |
 | [AnotiaWang/awesome-jev](https://github.com/AnotiaWang/awesome-jev) | [257](https://github.com/AnotiaWang/awesome-jev/stargazers) | Unknown | English / 简体中文 | Ecosystem | 中英双语整理应用、库、工具与研究。 |
 | [hellogumbo/awesome-jev](https://github.com/hellogumbo/awesome-jev) | [127](https://github.com/hellogumbo/awesome-jev/stargazers) | Unknown | English | Applications / Ecosystem | 应用与集成目录，配有可搜索的网站。 |
