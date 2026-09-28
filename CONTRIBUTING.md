@@ -102,3 +102,8 @@ Keep one kind of change per PR where practical. Explain evidence conflicts and
 limitations. Do not turn incomparable benchmark figures into a leaderboard.
 Original list/data/docs contributions use CC BY 4.0; scripts/workflows use MIT.
 Upstream code, model weights and datasets keep their respective licenses.
+
+
+## Multimodal evidence
+
+Optional `media` records in `data/projects.yaml` drive the modality tags and `docs/multimodal.md`. Include `summary`, `image`, `video`, `audio`, `training`, `rl`, `execution`, `source`, `checked_at` and `notes.en/zh/ja`. The source must also appear in project evidence. Distinguish native pixels/audio, frame sampling, mosaics, spectrogram images and text mediation. One generated label token is not zero-token readout; a game replay is not closed-loop control. `github: null` is allowed for inspectable HF-hosted code/weights when no canonical GitHub repo is verified; supply the real `website`/`huggingface` link, and do not substitute HF likes for GitHub Stars. Run `python scripts/test_multimodal.py` alongside existing validation.

@@ -54,6 +54,7 @@ Reads allowed labels at answer slots; optional denoising and noisy rereads. Join
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/razorback16/openjev/blob/main/README.md) | backbone, masked_slots, steps, rereads, outputs, limits | Implementation documentation |
+| [Source 2](https://github.com/razorback16/openjev/blob/main/README.md) | media_support, current_inference_scope | Author documentation reviewed 2026-09-28 |
 
 | Date | Artifact / limitation |
 |---|---|
@@ -154,7 +155,7 @@ README calls CE+Brier RLCD, but that is a supervised objective. OptionMarker and
 
 Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning and consistency; 35B remains supervised. RLCR-like describes the objective family, not reproduction of the RLCR paper or TypeSafe RLCD.
 
-**RL status:** 2B v10 has PPO + belief calibration; 35B v1 has no RL
+**RL status:** 2B v10 has PPO + belief calibration; 35B v1 has no RL; 2026-09-28: vision is a separate v5-transplant + PPO path; 4B/35B and later text versions must be scoped separately
 
 [Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+decider&project=decider)
 
@@ -164,6 +165,8 @@ Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning
 |---|---|---|
 | [Source 1](https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/README.md) | backbone, variants, readout, caching, weights | Implementation documentation |
 | [Source 2](https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/MODEL_CARD.md) | ppo, proper_log_score, version_specific_rl | Model card |
+| [Source 3](https://github.com/Mapika/decider/blob/23579f7a7e8f10e1045be492af3c1c05a005d67c/MODEL_CARD_VISION.md) | vision_backbone, vision_training, ppo, version_scope | Author model card |
+| [Source 4](https://github.com/Mapika/decider/blob/main/README.md) | current_variants, gguf | Author changelog reviewed 2026-09-28 |
 
 ## mini-jev
 
@@ -192,6 +195,7 @@ Direct output-head scoring with optional temperature fitting. The configured Qwe
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/zhengxuyu/litjev/blob/main/README.md) | configured_backbone, training, outputs, optional_calibration | Author documentation |
+| [Source 2](https://github.com/zhengxuyu/litjev/blob/main/README.md) | media_support, current_inference_scope | Author documentation reviewed 2026-09-28 |
 
 | Date | Artifact / limitation |
 |---|---|
@@ -238,6 +242,7 @@ Current stable recipe is frozen 4B, two option orders, no adapter and no calibra
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/kshetrajna12/reflex/blob/main/README.md) | stable_recipe, two_order_ensemble, no_adapter, no_calibration_file | Release documentation |
+| [Source 2](https://github.com/kshetrajna12/reflex/blob/main/README.md) | media_support, current_inference_scope | Author documentation reviewed 2026-09-28 |
 
 ## verdict
 
@@ -363,3 +368,174 @@ One-pass label slots for up to 52 candidates; larger sets use chunks and a final
 | Source | Supports | Evidence level |
 |---|---|---|
 | [Source 1](https://github.com/mithalouni/system-one-open/blob/main/README.md) | backbone, training, slot_readout, chunking, weights_pending | Implementation documentation |
+
+## visual-jev-yu
+
+**[Visual Jev (Yu & Yao)](https://github.com/guanxuyu-sv/Visual-Jev)** · First public: Unknown
+
+The recommended system uses answer-supervised LoRA and the existing LM head, not a new typed head or diffusion. The published 4B adapter and reproduction scripts are linked. Gains are concentrated on trained task families; batch-amortized speed is not single-request latency.
+
+**RL status:** Answer SFT; no RLCD in the recommended system
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Visual+Jev+%28Yu+%26+Yao%29&project=Visual+Jev+%28Yu+%26+Yao%29)
+
+**Model/artifact link:** https://huggingface.co/guanxuyu/visual-jev-4b-answer-sft (project-weight status: Partial; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/guanxuyu-sv/Visual-Jev/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+| [Source 2](https://arxiv.org/abs/2609.25845) | method, paper_date | Primary arXiv abstract |
+
+| Date | Artifact / limitation |
+|---|---|
+| 2026-09-22 | [Paper v1; earlier code publication not established](https://arxiv.org/abs/2609.25845) |
+
+## valen
+
+**[Valen](https://github.com/Liuziyu77/Valen)** · First public: Unknown
+
+Qwen vision-language model with a trainable decision head. The inspected RL implementation samples categorical actions, freezes old log-probabilities/rewards, uses a clipped group-relative surrogate, reference KL and direct Brier loss. It uses labelled targets and is not the proprietary TypeSafe algorithm.
+
+**RL status:** Experimental, source-inspected categorical clipped policy gradient + KL + direct Brier; labelled feedback; checkpoint-specific
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Valen&project=Valen)
+
+**Model/artifact link:** https://huggingface.co/Valen-Team/Valen-Preview-0923 (project-weight status: Partial; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/Liuziyu77/Valen/blob/main/docs/technical.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+| [Source 2](https://github.com/Liuziyu77/Valen/blob/06251f9d9d3c06ea690be93b8696ccc66471f8c9/valen/training/rlcd.py) | sampling, reward, policy_gradient, direct_brier, reference_kl | Source inspected |
+| [Source 3](https://github.com/Liuziyu77/Valen/blob/main/README.md) | weights, datasets, media | Author documentation |
+
+## omnijev
+
+**[OmniJev (Qwen)](https://github.com/tinnel123666888/OmniJev)** · First public: Unknown
+
+The reviewed v1.1 family uses rank-32 LoRA, decision/ordinal heads and probability-scoring training followed by temperature calibration. No RLCD stage is documented in this recipe. Offline replay demonstrations are not validated closed-loop robot or game control.
+
+**RL status:** Probability-scoring training and post-hoc temperature fitting documented; no RLCD attribution established
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+OmniJev+%28Qwen%29&project=OmniJev+%28Qwen%29)
+
+**Model/artifact link:** https://huggingface.co/tinnel123/OmniJev (project-weight status: Partial; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/tinnel123666888/OmniJev/blob/14dbec4f71e194852c8d7b88ab36ef639493f400/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+| [Source 2](https://github.com/tinnel123666888/OmniJev/releases/tag/v1.1) | release_artifacts | Author release link |
+
+| Date | Artifact / limitation |
+|---|---|
+| 2026-09-26 | [v1.1 results dated in README, not first-public date](https://github.com/tinnel123666888/OmniJev/blob/14dbec4f71e194852c8d7b88ab36ef639493f400/README.md) |
+
+## jev-spatial
+
+**[Jev-Spatial](https://github.com/Fr0zenCrane/jev-spatial)** · First public: Unknown
+
+Spatial relations, numeric ranges and pointing share a LayerNorm/linear choice head. Numeric output takes two rounds; pointing takes three 3x3 decisions with crop refill. There is no generated answer text, but the complete task is not always one forward pass.
+
+**RL status:** One supervised CE objective; no RLCD in the documented recipe
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Jev-Spatial&project=Jev-Spatial)
+
+**Model/artifact link:** https://huggingface.co/Fr0zencr4nE/jev-spatial (project-weight status: Yes; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/Fr0zenCrane/jev-spatial/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+
+## llm2jev
+
+**[LLM2Jev](https://github.com/Yinsongxu/LLM2Jev)** · First public: Unknown
+
+Training-free local scorer with SGLang, Transformers and MLX backends. Text/image requests are supported; cache reuse is backend- and scheduling-dependent. It is an inspectable inference mechanism, not newly trained Jev weights.
+
+**RL status:** No
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+LLM2Jev&project=LLM2Jev)
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+
+| Date | Artifact / limitation |
+|---|---|
+| 2026-09-22 | [Documented text/image support milestone](https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md) |
+| 2026-09-23 | [Documented MLX-VLM backend milestone](https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md) |
+
+## jev-visual-mlx
+
+**[Jev Visual (MLX)](https://github.com/hr98w/jev-visual)** · First public: Unknown
+
+Frozen Qwen3.5 MLX visual scoring. Image/context prefill is reused by copied KV/recurrent state and batched question suffixes. There is no project-specific training or calibration; only the Qwen3.5 adapter is verified by the author.
+
+**RL status:** No
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Jev+Visual+%28MLX%29&project=Jev+Visual+%28MLX%29)
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/hr98w/jev-visual/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+
+## visual-jev-anderson
+
+**[Visual Jev (Anderson)](https://github.com/andrueandersoncs/visual-jev)** · First public: Unknown
+
+Independent implementation, not the Yu/Yao paper. Documentation describes image-native packed isolated branches, language LoRA, a pointer head and held-out temperature fitting. A public promoted checkpoint was not verified; missing registry weights fail closed.
+
+**RL status:** Supervised/head/calibration pipeline documented; no RLCD evidence inspected
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Visual+Jev+%28Anderson%29&project=Visual+Jev+%28Anderson%29)
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/andrueandersoncs/visual-jev/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+
+## openjev-multimodal
+
+**[OpenJev Multimodal](https://github.com/jev-skills/openjev-multimodal)** · First public: Unknown
+
+Local llama.cpp/Metal decision engine with inspectable constrained-label readout. It generates one answer token per question, not zero tokens; Python constructs typed results. No new model training or RLCD is documented.
+
+**RL status:** Frozen upstream model; one-token constrained decoding, no RLCD
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+OpenJev+Multimodal&project=OpenJev+Multimodal)
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/jev-skills/openjev-multimodal/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |
+
+## jev-omni
+
+**[Jev-Omni (Gemma)](https://huggingface.co/akhilaaa3/Jev-Omni)** · First public: Unknown
+
+HF-hosted inference code and weights; no canonical GitHub repository was verified. A finite slot head scores runtime options without text generation. The author reports a 30k-question fine-tune; the complete training recipe and RLCD attribution were not established.
+
+**RL status:** No complete training recipe or RLCD source verified; author reports fine-tuning
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+Jev-Omni+%28Gemma%29&project=Jev-Omni+%28Gemma%29)
+
+**Model/artifact link:** https://huggingface.co/akhilaaa3/Jev-Omni (project-weight status: Yes; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://huggingface.co/akhilaaa3/Jev-Omni) | media_input, training, decision_path, limitations | Author implementation documentation |
+| [Source 2](https://huggingface.co/akhilaaa3/Jev-Omni/commit/6028e1fde1604c3442f5394e7d0eb3b534a7afe9) | classifier_head, unified_bf16, native_audio_components, packaging_correction | Primary source diff inspected |
+| [Source 3](https://huggingface.co/akhilaaa3/Jev-Omni/blob/main/processor_config.json) | audio_processor, image_processor, video_processor | Primary configuration excerpt |
+
+## groundingjev
+
+**[GroundingJev (task-specific)](https://github.com/xyzzzh/GroundingJev)** · First public: Unknown
+
+Explicit Jev-inspired visual grounding, not a general typed probability model. An MLP reads the last valid hidden state and regresses normalized cxcywh. Training uses weighted L1/GIoU, first head adaptation then language/visual-merger/head tuning; other vision parameters stay frozen.
+
+**RL status:** Supervised weighted L1/GIoU; not RLCD
+
+[Report a correction](https://github.com/Zhao-Tian-yi/awesome-jev/issues/new?template=metadata-correction.yml&title=Correction%3A+GroundingJev+%28task-specific%29&project=GroundingJev+%28task-specific%29)
+
+**Model/artifact link:** https://huggingface.co/xyzzzh/GroundingJev (project-weight status: Yes; upstream links are identified in the notes).
+
+| Source | Supports | Evidence level |
+|---|---|---|
+| [Source 1](https://github.com/xyzzzh/GroundingJev/blob/main/README.md) | media_input, training, decision_path, limitations | Author implementation documentation |

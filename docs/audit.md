@@ -102,3 +102,8 @@ Validation catches structural mistakes, stale generated files and some broken
 links; it cannot prove an architectural or scientific claim. Network restrictions,
 HTTP 403/429 and cache misses are reported as unverified, not dead links. A passing
 CI run is not a model-quality endorsement. No background monitoring is configured.
+
+
+## Targeted update — 2026-09-28
+
+Ten implementations were added and four existing media paths were reviewed. See [multimodal scope and sources](multimodal.md). The catalog now contains 32 rows (one official reference, 31 independent implementations), including one HF-hosted project without a verified canonical GitHub repo and one task-specific box-regression model. Four new paper records are maintained separately. The update did not rerun upstream models or globally re-audit every historical row. First-public dates remain unknown unless supported independently; paper/version milestones are not substituted.

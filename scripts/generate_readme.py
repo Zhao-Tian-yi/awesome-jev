@@ -11,6 +11,8 @@ from urllib.parse import urlencode
 
 import yaml
 from github_stars import NOTICE, load_snapshot, star_cell
+from multimodal_catalog import (MEDIA_LINK, MEDIA_GOALS, MEDIA_INSPECT, MEDIA_ROUTES,
+                                project_url, backbone_cell, render_multimodal)
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = 'https://github.com/Zhao-Tian-yi/awesome-jev'
@@ -25,7 +27,7 @@ TEXT = {
  'models': 'Model Landscape',
  'scope': 'Official Jev stays first. Other rows follow verified first-public dates, then existing curation order for unknown dates. Stars do not determine the order.',
  'details': '[Full technical table](docs/comparison.md) · [Evidence and version notes](docs/evidence.md) · [Audit limitations](docs/audit.md)',
- 'metadata': 'Technical audit: **{audit}** · Stars snapshot: **{stars}** ([API sources](data/github-stars.json)). Unknown means the first-public date is unverified; stars are not a quality score.',
+ 'metadata': 'Metadata update: **{audit}** (targeted multimodal review; older rows not fully re-audited) · Stars snapshot: **{stars}** ([API sources](data/github-stars.json)). Unknown means the first-public date is unverified; stars are not a quality score.',
  'start': 'Find by goal',
  'start_note': 'Reading routes, not a ranking. Check the linked version notes before using a project.',
  'goals': ['Try decisions without training', 'Train a decision mechanism', 'Explore encoder-based decisions', 'Study diffusion answer slots', 'Inspect calibration-aware RL'],
@@ -42,7 +44,7 @@ TEXT = {
  'models': '模型全景',
  'scope': '官方 Jev 始终置顶。其余按已核实的首次公开日期升序排列；未知日期保留原策展顺序，不按 Stars 排名。',
  'details': '[完整技术对照表](docs/comparison.md) · [证据与版本说明](docs/evidence.md) · [核查限制](docs/audit.md)',
- 'metadata': '技术核查：**{audit}** · Stars 快照：**{stars}**（[API 来源](data/github-stars.json)）。Unknown 表示首次公开日期未核实；Stars 不代表技术质量。',
+ 'metadata': '元数据更新：**{audit}**（本轮重点核查多模态，旧条目未全部重审） · Stars 快照：**{stars}**（[API 来源](data/github-stars.json)）。Unknown 表示首次公开日期未核实；Stars 不代表技术质量。',
  'start': '按需求查找',
  'start_note': '这是阅读入口，不是性能排名。使用前请查看所链接的版本与证据说明。',
  'goals': ['不训练，先做本地决策', '自己训练决策机制', '研究 encoder 决策路线', '研究 diffusion 回答槽位', '研究校准相关强化学习'],
@@ -59,7 +61,7 @@ TEXT = {
  'models': 'モデル一覧',
  'scope': '公式 Jev を先頭に固定し、確認済みの初回公開日を昇順、未確認項目を既存の収録順に並べます。Stars 順ではありません。',
  'details': '[技術比較の全項目](docs/comparison.md) · [根拠とバージョン情報](docs/evidence.md) · [検証上の制約](docs/audit.md)',
- 'metadata': '技術検証：**{audit}** · Stars 取得：**{stars}**（[API 出典](data/github-stars.json)）。Unknown は初回公開日の未確認を示します。Stars は技術品質の指標ではありません。',
+ 'metadata': 'メタデータ更新：**{audit}**（今回はマルチモーダル中心。旧項目の全面再検証ではありません） · Stars 取得：**{stars}**（[API 出典](data/github-stars.json)）。Unknown は初回公開日の未確認を示します。Stars は技術品質の指標ではありません。',
  'start': '目的から探す',
  'start_note': 'ランキングではなく、読み始めるための案内です。利用前にリンク先の版と根拠を確認してください。',
  'goals': ['学習せずに判断を試す', '判断機構を学習する', 'encoder による判断を調べる', 'diffusion の回答スロットを調べる', '校正を考慮した RL を調べる'],
@@ -76,6 +78,13 @@ ROUTES = [(['semif', 'mini-jev'], 'docs/comparison.md'),
           (['laya', 'von'], 'docs/architecture.md'),
           (['openjev-diffusiongemma'], 'docs/architecture.md'),
           (['eve-rlcd', 'laya', 'nanojev'], 'docs/training.md')]
+
+
+for _lang in LANGUAGES:
+    TEXT[_lang]['goals'] += MEDIA_GOALS[_lang]
+    TEXT[_lang]['inspect'] += MEDIA_INSPECT[_lang]
+    TEXT[_lang]['details'] += ' · ' + MEDIA_LINK[_lang]
+ROUTES += MEDIA_ROUTES
 
 
 def load_data(root: Path = ROOT):
@@ -128,7 +137,7 @@ def artifact(p):
     if status == 'Partial':
         return f'[Adapter/head]({target})' if target else 'Adapter/head; see evidence'
     if status == 'No' and p['training'] == 'None':
-        return f'[Upstream weights]({target})' if target else f"[Upstream model / setup]({p['github']})"
+        return f'[Upstream weights]({target})' if target else f"[Upstream model / setup]({project_url(p)})"
     if status == 'No':
         return 'No project-weight release'
     return 'Availability unverified'
@@ -137,8 +146,8 @@ def artifact(p):
 def landscape(projects, snapshot):
     rows = []
     for p in ordered(projects):
-        rows.append([f"[{p['name']}]({p['github']})", star_cell(p['github'], snapshot),
-            p['release_date'] or 'Unknown', f"{p['backbone']}<br>{p['params']}",
+        rows.append([f"[{p['name']}]({project_url(p)})", star_cell(p['github'], snapshot),
+            p['release_date'] or 'Unknown', backbone_cell(p),
             f"{p['architecture']}<br>{p['decision_mechanism']}",
             f"{p['training']}<br>RL: {p['rl']}", artifact(p),
             f"[Sources](docs/evidence.md#{p['id']})"])
@@ -158,7 +167,7 @@ def property_table(projects):
     keys = ['typed', 'dynamic', 'variable', 'native', 'calibration', 'shared_state', 'multi_q', 'parallel_q', 'non_ar']
     return table(['Project', 'Typed', 'Dynamic Options', 'Variable K', 'Native P', 'Calibration',
                   'Shared State', 'Multi-Q', 'Parallel Q', 'Non-AR'],
-        [[f"[{p['name']}]({p['github']})"] + [SYMBOL[p['properties'][k]] for k in keys]
+        [[f"[{p['name']}]({project_url(p)})"] + [SYMBOL[p['properties'][k]] for k in keys]
          for p in ordered(projects)])
 
 
@@ -199,7 +208,7 @@ def render_evidence(data):
         'Generated from `data/projects.yaml`. Source inspection, documentation and author claims are distinguished below. Links are not an endorsement; no new technical audit is implied by a layout update.']
     for p in ordered(data['projects']):
         correction = REPO + '/issues/new?' + urlencode({'template': 'metadata-correction.yml', 'title': 'Correction: ' + p['name'], 'project': p['name']})
-        parts += ['## ' + p['id'], f"**[{p['name']}]({p['github']})** · First public: {p['release_date'] or 'Unknown'}", p['notes']['en'],
+        parts += ['## ' + p['id'], f"**[{p['name']}]({project_url(p)})** · First public: {p['release_date'] or 'Unknown'}", p['notes']['en'],
                   f"**RL status:** {p['rl_status']}", f'[Report a correction]({correction})']
         if p['huggingface']:
             parts.append(f"**Model/artifact link:** {p['huggingface']} (project-weight status: {p['weights']}; upstream links are identified in the notes).")
@@ -224,7 +233,7 @@ def outputs(root: Path = ROOT):
     log = '# Curation updates\n\n[Home](../README.md)\n\nChanges to this list, not upstream release dates. Star-only refreshes are excluded.\n\n'
     log += update_table(updates, 'en', '../') + '\n'
     return {**{path: render_readme(lang, data, papers, lists, snapshot, updates) for lang, path in LANGUAGES.items()},
-            'docs/evidence.md': render_evidence(data), 'docs/comparison.md': comparison, 'docs/updates.md': log}
+            'docs/evidence.md': render_evidence(data), 'docs/comparison.md': comparison, 'docs/updates.md': log, 'docs/multimodal.md': render_multimodal(data, papers)}
 
 
 def main():

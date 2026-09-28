@@ -1,65 +1,89 @@
 {
-  "checked_at": "2026-09-22T03:56:53Z",
+  "checked_at": "2026-09-28T04:19:51Z",
   "note": "GitHub stargazers_count snapshot; not a quality ranking. Organization pages are not model repositories.",
   "repositories": {
+    "andrueandersoncs/visual-jev": {
+      "stars": 3,
+      "source": "https://api.github.com/repos/andrueandersoncs/visual-jev"
+    },
     "anotiawang/awesome-jev": {
-      "stars": 257,
+      "stars": 513,
       "source": "https://api.github.com/repos/anotiawang/awesome-jev"
     },
     "anthony-maio/eve-rlcd": {
-      "stars": 4,
+      "stars": 6,
       "source": "https://api.github.com/repos/anthony-maio/eve-rlcd"
     },
     "daseinlabs/open-jev": {
-      "stars": 91,
+      "stars": 116,
       "source": "https://api.github.com/repos/daseinlabs/open-jev"
     },
+    "fr0zencrane/jev-spatial": {
+      "stars": 2,
+      "source": "https://api.github.com/repos/fr0zencrane/jev-spatial"
+    },
+    "guanxuyu-sv/visual-jev": {
+      "stars": 24,
+      "source": "https://api.github.com/repos/guanxuyu-sv/visual-jev"
+    },
     "hellogumbo/awesome-jev": {
-      "stars": 127,
+      "stars": 201,
       "source": "https://api.github.com/repos/hellogumbo/awesome-jev"
     },
     "heman10x-ngu/verdict-open-jev": {
-      "stars": 67,
+      "stars": 107,
       "source": "https://api.github.com/repos/heman10x-ngu/verdict-open-jev"
     },
+    "hr98w/jev-visual": {
+      "stars": 291,
+      "source": "https://api.github.com/repos/hr98w/jev-visual"
+    },
     "jaredpalmer/kev": {
-      "stars": 2607,
+      "stars": 7457,
       "source": "https://api.github.com/repos/jaredpalmer/kev"
     },
+    "jev-skills/openjev-multimodal": {
+      "stars": 3,
+      "source": "https://api.github.com/repos/jev-skills/openjev-multimodal"
+    },
     "kshetrajna12/reflex": {
-      "stars": 109,
+      "stars": 153,
       "source": "https://api.github.com/repos/kshetrajna12/reflex"
     },
+    "liuziyu77/valen": {
+      "stars": 347,
+      "source": "https://api.github.com/repos/liuziyu77/valen"
+    },
     "mapika/decider": {
-      "stars": 277,
+      "stars": 864,
       "source": "https://api.github.com/repos/mapika/decider"
     },
     "mithalouni/system-one-open": {
-      "stars": 28,
+      "stars": 37,
       "source": "https://api.github.com/repos/mithalouni/system-one-open"
     },
     "nandhakishorm/laya": {
-      "stars": 11383,
+      "stars": 26876,
       "source": "https://api.github.com/repos/nandhakishorm/laya"
     },
     "olanotolu/jevbetter": {
-      "stars": 14,
+      "stars": 15,
       "source": "https://api.github.com/repos/olanotolu/jevbetter"
     },
     "omnijev/awesome-jev-gallery": {
-      "stars": 155,
+      "stars": 466,
       "source": "https://api.github.com/repos/omnijev/awesome-jev-gallery"
     },
     "r-ms/mini-jev": {
-      "stars": 41,
+      "stars": 57,
       "source": "https://api.github.com/repos/r-ms/mini-jev"
     },
     "razorback16/openjev": {
-      "stars": 285,
+      "stars": 466,
       "source": "https://api.github.com/repos/razorback16/openjev"
     },
     "rupeshpoojary9/poorjev": {
-      "stars": 5,
+      "stars": 10,
       "source": "https://api.github.com/repos/rupeshpoojary9/poorjev"
     },
     "scienthoon/luce": {
@@ -67,24 +91,36 @@
       "source": "https://api.github.com/repos/scienthoon/luce"
     },
     "theoleecj/semif": {
-      "stars": 3341,
+      "stars": 4461,
       "source": "https://api.github.com/repos/theoleecj/semif"
     },
     "tianyucodings/nanojev": {
-      "stars": 1852,
+      "stars": 2361,
       "source": "https://api.github.com/repos/tianyucodings/nanojev"
     },
+    "tinnel123666888/omnijev": {
+      "stars": 102,
+      "source": "https://api.github.com/repos/tinnel123666888/omnijev"
+    },
     "vinnylarouge/jevlike": {
-      "stars": 1170,
+      "stars": 1321,
       "source": "https://api.github.com/repos/vinnylarouge/jevlike"
     },
     "wfzyx/von": {
-      "stars": 371,
+      "stars": 730,
       "source": "https://api.github.com/repos/wfzyx/von"
     },
+    "xyzzzh/groundingjev": {
+      "stars": 7,
+      "source": "https://api.github.com/repos/xyzzzh/groundingjev"
+    },
     "yibie/awesome-jev": {
-      "stars": 1028,
+      "stars": 1852,
       "source": "https://api.github.com/repos/yibie/awesome-jev"
+    },
+    "yinsongxu/llm2jev": {
+      "stars": 349,
+      "source": "https://api.github.com/repos/yinsongxu/llm2jev"
     },
     "zeredy879/minojev": {
       "stars": 25,
@@ -95,15 +131,15 @@
       "source": "https://api.github.com/repos/zhao-tian-yi/awesome-jev"
     },
     "zhengxuyu/litjev": {
-      "stars": 37,
+      "stars": 45,
       "source": "https://api.github.com/repos/zhengxuyu/litjev"
     },
     "zhihz/openjev": {
-      "stars": 28,
+      "stars": 35,
       "source": "https://api.github.com/repos/zhihz/openjev"
     },
     "zwlijay/jev-forge": {
-      "stars": 11,
+      "stars": 71,
       "source": "https://api.github.com/repos/zwlijay/jev-forge"
     }
   }

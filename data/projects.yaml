@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: CC-BY-4.0
 # First-public dates are null unless verified. Version milestones are separate.
 # ar describes the scoped decision path, not backbone pretraining.
-checked_at: '2026-09-21'
+checked_at: '2026-09-28'
+# Targeted multimodal update; untouched historical rows retain the 2026-09-21 audit scope.
 projects:
 - id: official-jev
   name: Official Jev
@@ -92,17 +93,57 @@ projects:
   rl_status: No Jev-specific training in the documented baseline
   ar: 'No'
   decision_mechanism: Masked decision slots
-  outputs: [Noul, Choice, Score]
+  outputs:
+  - Noul
+  - Choice
+  - Score
   weights: 'No'
-  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: 'no', shared_state: partial, multi_q: 'yes', parallel_q: 'yes', non_ar: 'yes'}
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: 'no'
+    shared_state: partial
+    multi_q: 'yes'
+    parallel_q: 'yes'
+    non_ar: 'yes'
   evidence:
   - url: https://github.com/razorback16/openjev/blob/main/README.md
-    supports: [backbone, masked_slots, steps, rereads, outputs, limits]
+    supports:
+    - backbone
+    - masked_slots
+    - steps
+    - rereads
+    - outputs
+    - limits
     level: Implementation documentation
+  - url: https://github.com/razorback16/openjev/blob/main/README.md
+    supports:
+    - media_support
+    - current_inference_scope
+    level: Author documentation reviewed 2026-09-28
   notes:
-    en: "Reads allowed labels at answer slots; optional denoising and noisy rereads. Joint slots/chunks are not evidence of Jev-style question isolation. Sample averaging and entropy confidence are not calibration guarantees. Linked weights belong to the upstream model."
-    zh: "在回答槽位读取允许标签，可增加去噪步数和重复采样。联合槽位与分块不保证 Jev 式问题隔离；采样平均、熵置信度不等于 Calibration。链接为上游权重。"
-    ja: "回答スロットの許可ラベルを読み、追加の denoising や再読みに対応。共同スロットや分割処理は質問の独立性を保証しない。平均化や entropy は Calibration の保証ではなく、リンク先は上流の重み。"
+    en: Reads allowed labels at answer slots; optional denoising and noisy rereads. Joint slots/chunks are not evidence of Jev-style question isolation. Sample averaging
+      and entropy confidence are not calibration guarantees. Linked weights belong to the upstream model.
+    zh: 在回答槽位读取允许标签，可增加去噪步数和重复采样。联合槽位与分块不保证 Jev 式问题隔离；采样平均、熵置信度不等于 Calibration。链接为上游权重。
+    ja: 回答スロットの許可ラベルを読み、追加の denoising や再読みに対応。共同スロットや分割処理は質問の独立性を保証しない。平均化や entropy は Calibration の保証ではなく、リンク先は上流の重み。
+  media:
+    summary: Text + image
+    image: Native; up to 8 images in documented API
+    video: Not documented
+    audio: Not documented
+    training: Frozen DiffusionGemma readout
+    rl: No Jev-specific RLCD
+    execution: Joint slots in chunks; optional sequential/think paths change semantics
+    source: https://github.com/razorback16/openjev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: The default DiffusionGemma path reads masked answer slots. steps/samples and optional think/sequential modes are different compute paths; question independence
+        is not guaranteed for joint slots. Laya/CLM/JevK5 endpoints are separately credited models, not DiffusionGemma variants.
+      zh: 默认 DiffusionGemma 路径读取 masked 槽位；steps/samples 与 think/sequential 改变计算过程，联合槽位不保证问题独立。其 Laya/CLM/JevK5 端点是其他模型，不是 DiffusionGemma 变体。
+      ja: 既定の DiffusionGemma は masked slot 読出し。steps/samples/think/sequential は別経路で、共同スロットは質問独立性を保証しない。他のモデル endpoint は DiffusionGemma の派生ではない。
+    artifact: https://huggingface.co/nvidia/diffusiongemma-26B-A4B-it-NVFP4
 - id: kev
   name: Kev
   official: false
@@ -268,27 +309,77 @@ projects:
   paper: null
   huggingface: https://huggingface.co/Mapika/decider-2b
   backbone: Qwen3.5 family
-  params: 0.8B / 2B / 34.7B total, 3B active
+  params: 0.8B / 2B / 4B / 34.7B total, 3B active (MoE)
   architecture: Hybrid + Decision Head
   training: Multi-stage
   rl: RLCR-like
-  rl_status: 2B v10 has PPO + belief calibration; 35B v1 has no RL
+  rl_status: '2B v10 has PPO + belief calibration; 35B v1 has no RL; 2026-09-28: vision is a separate v5-transplant + PPO path; 4B/35B and later text versions must
+    be scoped separately'
   ar: 'No'
   decision_mechanism: Label-token projection
-  outputs: [Noul, Choice, Score]
+  outputs:
+  - Noul
+  - Choice
+  - Score
   weights: 'Yes'
-  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: 'yes'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
   evidence:
   - url: https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/README.md
-    supports: [backbone, variants, readout, caching, weights]
+    supports:
+    - backbone
+    - variants
+    - readout
+    - caching
+    - weights
     level: Implementation documentation
   - url: https://github.com/Mapika/decider/blob/c4daaac28af9fea95d627015cffa2dd5a5926ee6/MODEL_CARD.md
-    supports: [ppo, proper_log_score, version_specific_rl]
+    supports:
+    - ppo
+    - proper_log_score
+    - version_specific_rl
     level: Model card
+  - url: https://github.com/Mapika/decider/blob/23579f7a7e8f10e1045be492af3c1c05a005d67c/MODEL_CARD_VISION.md
+    supports:
+    - vision_backbone
+    - vision_training
+    - ppo
+    - version_scope
+    level: Author model card
+  - url: https://github.com/Mapika/decider/blob/main/README.md
+    supports:
+    - current_variants
+    - gguf
+    level: Author changelog reviewed 2026-09-28
   notes:
-    en: "Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning and consistency; 35B remains supervised. RLCR-like describes the objective family, not reproduction of the RLCR paper or TypeSafe RLCD."
-    zh: "修正旧版“无 RL”：2B v10 增加 PPO、proper log-score belief 学习及一致性项；35B 仍是监督训练。RLCR-like 仅指目标类别，不代表复现该论文或 TypeSafe RLCD。"
-    ja: "旧来の No RL を修正。2B v10 は PPO、proper log-score の belief 学習、一貫性項を追加し、35B は教師ありのまま。RLCR-like は目的の分類であり論文や公式 RLCD の再現ではない。"
+    en: 'Corrected the old no-RL entry: 2B v10 adds PPO, proper-log-score belief learning and consistency; 35B remains supervised. RLCR-like describes the objective
+      family, not reproduction of the RLCR paper or TypeSafe RLCD.'
+    zh: 修正旧版“无 RL”：2B v10 增加 PPO、proper log-score belief 学习及一致性项；35B 仍是监督训练。RLCR-like 仅指目标类别，不代表复现该论文或 TypeSafe RLCD。
+    ja: 旧来の No RL を修正。2B v10 は PPO、proper log-score の belief 学習、一貫性項を追加し、35B は教師ありのまま。RLCR-like は目的の分類であり論文や公式 RLCD の再現ではない。
+  media:
+    summary: Text; optional native-image variant
+    image: Native decider-2b-vision
+    video: Game frames; no general video claim
+    audio: Not documented
+    training: 'Vision: v5 text transplant + supervised tuning + PPO'
+    rl: Vision PPO from pixels; not vendor RLCD
+    execution: Vision answer slots; do not inherit current text-engine cache guarantees
+    source: https://github.com/Mapika/decider/blob/23579f7a7e8f10e1045be492af3c1c05a005d67c/MODEL_CARD_VISION.md
+    checked_at: '2026-09-28'
+    notes:
+      en: The vision card specifies v5 text weights, supervised multimodal data and then PPO on Breakout/Pong. Do not label it as current 2B v11 or inherit v10 belief-calibration
+        results. The main repo now lists 4B v2.1, 2B v11 and September 27 GGUF support.
+      zh: 视觉模型卡明确是 v5 文本权重移植、图文监督后在 Breakout/Pong 做 PPO。不是当前 2B v11，也不能继承 v10 的 belief 校准结果。主库已列出 4B v2.1、2B v11 与 9 月 27 日 GGUF 支持。
+      ja: 視覚版は v5 の言語重み、マルチモーダル教師学習、Breakout/Pong の PPO。2B v11 と同一ではなく v10 の belief 校正結果を引き継ぐとは言えない。主庫は 4B v2.1、2B v11、9/27 GGUF を追加。
+    artifact: https://huggingface.co/Mapika/decider-2b-vision
 - id: mini-jev
   name: mini-Jev
   official: false
@@ -337,17 +428,55 @@ projects:
   rl_status: Frozen direct-readout path
   ar: 'No'
   decision_mechanism: Next-token logits
-  outputs: [Noul, Choice, Score]
+  outputs:
+  - Noul
+  - Choice
+  - Score
   weights: 'No'
-  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: unknown, multi_q: 'yes', parallel_q: unknown, non_ar: 'yes'}
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: unknown
+    multi_q: 'yes'
+    parallel_q: unknown
+    non_ar: 'yes'
   evidence:
   - url: https://github.com/zhengxuyu/litjev/blob/main/README.md
-    supports: [configured_backbone, training, outputs, optional_calibration]
+    supports:
+    - configured_backbone
+    - training
+    - outputs
+    - optional_calibration
     level: Author documentation
+  - url: https://github.com/zhengxuyu/litjev/blob/main/README.md
+    supports:
+    - media_support
+    - current_inference_scope
+    level: Author documentation reviewed 2026-09-28
   notes:
-    en: "Direct output-head scoring with optional temperature fitting. The configured Qwen default is recorded as the repository's declaration, not as an independent validation of every supported checkpoint or shared-state speedup."
-    zh: "直接读取 output head，可选温度拟合。Qwen 默认型号按仓库声明记录，不代表逐一验证所有底座或共享状态加速。"
-    ja: "output head を直接読み、温度調整は任意。Qwen の既定値はリポジトリの宣言であり、全 checkpoint や共有状態の高速化を独立検証したものではない。"
+    en: Direct output-head scoring with optional temperature fitting. The configured Qwen default is recorded as the repository's declaration, not as an independent
+      validation of every supported checkpoint or shared-state speedup.
+    zh: 直接读取 output head，可选温度拟合。Qwen 默认型号按仓库声明记录，不代表逐一验证所有底座或共享状态加速。
+    ja: output head を直接読み、温度調整は任意。Qwen の既定値はリポジトリの宣言であり、全 checkpoint や共有状態の高速化を独立検証したものではない。
+  media:
+    summary: Text + image (checkpoint-dependent)
+    image: Native with vision checkpoint
+    video: Not established by reviewed documentation
+    audio: Not documented
+    training: Frozen model; optional temperature fitting
+    rl: No RLCD
+    execution: Model/backend-dependent; do not infer sharing from one API call
+    source: https://github.com/zhengxuyu/litjev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: The documented default is Qwen3.8-27B. Screenshot decisions require a vision checkpoint; plain text checkpoints do not become visual through the wrapper.
+        Probabilities are uncalibrated by default.
+      zh: 文档默认 Qwen3.8-27B；截图决策必须使用视觉 checkpoint，普通文本模型不会因 wrapper 获得视觉能力。默认概率未校准。
+      ja: 既定は Qwen3.8-27B。スクリーンショットには視覚 checkpoint が必要で、wrapper だけで text model は視覚化しない。既定確率は未校正。
+    artifact: null
 - id: zhihz-openjev
   name: Open JEV (zhihz)
   official: false
@@ -421,17 +550,55 @@ projects:
   rl_status: Stable manifest selects frozen weights
   ar: 'No'
   decision_mechanism: Next-token logits
-  outputs: [Noul, Choice, Score]
+  outputs:
+  - Noul
+  - Choice
+  - Score
   weights: 'No'
-  properties: {typed: 'yes', dynamic: 'yes', variable: 'yes', native: 'yes', calibration: partial, shared_state: 'yes', multi_q: 'yes', parallel_q: partial, non_ar: 'yes'}
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: 'yes'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
   evidence:
   - url: https://github.com/kshetrajna12/reflex/blob/main/README.md
-    supports: [stable_recipe, two_order_ensemble, no_adapter, no_calibration_file]
+    supports:
+    - stable_recipe
+    - two_order_ensemble
+    - no_adapter
+    - no_calibration_file
     level: Release documentation
+  - url: https://github.com/kshetrajna12/reflex/blob/main/README.md
+    supports:
+    - media_support
+    - current_inference_scope
+    level: Author documentation reviewed 2026-09-28
   notes:
-    en: "Current stable recipe is frozen 4B, two option orders, no adapter and no calibration file. Historical LoRA/distillation experiments do not mean the stable release is fine-tuned. A moving tag is not an immutable release."
-    zh: "当前 stable 是冻结 4B、两个选项顺序平均、无 adapter 且无校准文件。历史 LoRA/蒸馏实验不能算作当前默认训练；移动 tag 不是不可变发布。"
-    ja: "現在の stable は凍結 4B、二つの候補順序、adapter と校正ファイルなし。過去の LoRA・蒸留実験と既定の公開経路を分ける。移動 tag は不変の release ではない。"
+    en: Current stable recipe is frozen 4B, two option orders, no adapter and no calibration file. Historical LoRA/distillation experiments do not mean the stable
+      release is fine-tuned. A moving tag is not an immutable release.
+    zh: 当前 stable 是冻结 4B、两个选项顺序平均、无 adapter 且无校准文件。历史 LoRA/蒸馏实验不能算作当前默认训练；移动 tag 不是不可变发布。
+    ja: 現在の stable は凍結 4B、二つの候補順序、adapter と校正ファイルなし。過去の LoRA・蒸留実験と既定の公開経路を分ける。移動 tag は不変の release ではない。
+  media:
+    summary: Text + image
+    image: Native with vision checkpoint
+    video: Not established in reviewed stable path
+    audio: Not documented
+    training: Frozen stable Qwen3.5-4B
+    rl: No RLCD in stable path
+    execution: Shared state cache; independent question branches
+    source: https://github.com/kshetrajna12/reflex/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: The stable configuration uses frozen weights and two option orders. Earlier LoRA experiments are not its default release. A visual-capable checkpoint and
+        actual image input are required.
+      zh: stable 配置使用冻结权重与两种候选顺序，早期 LoRA 实验不是当前默认版本；必须使用视觉 checkpoint 并实际输入图像。
+      ja: stable は凍結重みと 2 種の候補順序。過去の LoRA 実験は既定版ではない。視覚 checkpoint と実際の画像入力が必要。
+    artifact: null
 - id: verdict
   name: Verdict / OpenJev
   official: false
@@ -662,3 +829,659 @@ projects:
     en: "One-pass label slots for up to 52 candidates; larger sets use chunks and a final round. README says weights reside on the author's Modal volume and HF upload is pending, so public project weights are not marked available."
     zh: "52 个以内候选采用单次 label slot 读取，更多候选使用分块与最终选择。README 说权重在作者 Modal volume、HF 上传待完成，因此不标记公开权重可用。"
     ja: "52 候補までは label slot、超える場合は分割と最終選択を行う。重みは作者の Modal volume にあり HF 公開待ちと記載されるため、公開重みありとはしない。"
+- id: visual-jev-yu
+  name: Visual Jev (Yu & Yao)
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://arxiv.org/abs/2609.25845
+    kind: Paper v1; earlier code publication not established
+    date: '2026-09-22'
+    first_public: false
+  github: https://github.com/guanxuyu-sv/Visual-Jev
+  website: null
+  paper: https://arxiv.org/abs/2609.25845
+  huggingface: https://huggingface.co/guanxuyu/visual-jev-4b-answer-sft
+  backbone: Qwen3-VL
+  params: 4B / 8B
+  architecture: AR VLM
+  training: LoRA / answer SFT
+  rl: 'No'
+  rl_status: Answer SFT; no RLCD in the recommended system
+  ar: 'No'
+  decision_mechanism: Existing LM-head candidate-token logits
+  outputs:
+  - Choice
+  - Probability Distribution
+  weights: Partial
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: unknown
+    shared_state: 'yes'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/guanxuyu-sv/Visual-Jev/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  - url: https://arxiv.org/abs/2609.25845
+    supports:
+    - method
+    - paper_date
+    level: Primary arXiv abstract
+  notes:
+    en: The recommended system uses answer-supervised LoRA and the existing LM head, not a new typed head or diffusion. The published 4B adapter and reproduction
+      scripts are linked. Gains are concentrated on trained task families; batch-amortized speed is not single-request latency.
+    zh: 推荐版本是答案监督 LoRA 与原有 LM head，不是新 typed head 或 diffusion。已发布 4B adapter；收益主要集中在训练任务族，批摊销耗时不等于单请求延迟。
+    ja: 推奨構成は回答 SFT の LoRA と既存 LM head。新しい typed head や diffusion ではない。4B adapter を公開。学習済みタスクの改善とバッチ償却時間を単一リクエストの性能と混同しない。
+  media:
+    summary: Text + image
+    image: Native image input
+    video: Not documented
+    audio: Not documented
+    training: Answer-supervised LoRA
+    rl: No RL in recommended recipe
+    execution: One visual/public prefix; isolated suffixes batched
+    source: https://github.com/guanxuyu-sv/Visual-Jev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Choice quickstart supports 2–16 options. A matched typed-head control is experimental. No claim that SFT guarantees calibration.
+      zh: 快速示例支持 2–16 选项 Choice；独立 typed head 是实验对照，不是默认系统，SFT 不保证校准。
+      ja: Quickstart は 2–16 候補の Choice。typed head は比較実験であり既定構成ではない。SFT は校正を保証しない。
+    artifact: https://huggingface.co/guanxuyu/visual-jev-4b-answer-sft
+- id: valen
+  name: Valen
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/Liuziyu77/Valen
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/Valen-Team/Valen-Preview-0923
+  backbone: Qwen3.5
+  params: 0.8B / 2B + decision head
+  architecture: Hybrid VLM + Decision Head
+  training: SFT + experimental RL
+  rl: RLCD (claimed)
+  rl_status: Experimental, source-inspected categorical clipped policy gradient + KL + direct Brier; labelled feedback; checkpoint-specific
+  ar: 'No'
+  decision_mechanism: Shared candidate head; separate ordinal-level branches
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: Partial
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: 'no'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/Liuziyu77/Valen/blob/main/docs/technical.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  - url: https://github.com/Liuziyu77/Valen/blob/06251f9d9d3c06ea690be93b8696ccc66471f8c9/valen/training/rlcd.py
+    supports:
+    - sampling
+    - reward
+    - policy_gradient
+    - direct_brier
+    - reference_kl
+    level: Source inspected
+  - url: https://github.com/Liuziyu77/Valen/blob/main/README.md
+    supports:
+    - weights
+    - datasets
+    - media
+    level: Author documentation
+  notes:
+    en: Qwen vision-language model with a trainable decision head. The inspected RL implementation samples categorical actions, freezes old log-probabilities/rewards,
+      uses a clipped group-relative surrogate, reference KL and direct Brier loss. It uses labelled targets and is not the proprietary TypeSafe algorithm.
+    zh: Qwen 多模态骨干加决策头。已核查的 RL 代码包含类别动作采样、冻结旧策略和奖励、组相对 clipped surrogate、参考 KL 与直接 Brier 损失。训练使用标签，不是 TypeSafe 原版算法。
+    ja: Qwen のマルチモーダル基盤と判断 head。確認した RL は categorical sampling、固定した旧 log-prob/reward、group-relative clipping、参照 KL、直接 Brier 損失を使用。ラベル付き学習で、TypeSafe の非公開手法ではない。
+  media:
+    summary: Text + image + video
+    image: Native image input
+    video: Processor video path documented; temporal evaluation unverified
+    audio: Not documented
+    training: Head warmup; LLM LoRA; optional merger/vision-top tuning
+    rl: Inspected GRPO-style local RLCD + direct Brier
+    execution: State preparation shared; backbone recomputed per branch
+    source: https://github.com/Liuziyu77/Valen/blob/main/docs/technical.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Choice/Noul use one branch per question; Score evaluates each level separately. Preparing state once is not shared backbone encoding. Preview-0923 requires
+        the Qwen3.5-2B base. General and Sokoban results use different checkpoints.
+      zh: Choice/Noul 每题一分支，Score 每等级独立前向；state 预处理复用不等于骨干共享。Preview-0923 仍需 Qwen3.5-2B 底座；通用与推箱子评测使用不同 checkpoint。
+      ja: Choice/Noul は質問ごと、Score はレベルごとの forward。state 前処理の再利用は backbone 共有ではない。Preview-0923 は別途 Qwen3.5-2B を必要とし、汎用評価と倉庫番は異なる checkpoint。
+    artifact: https://huggingface.co/Valen-Team/Valen-Preview-0923
+- id: omnijev
+  name: OmniJev (Qwen)
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/tinnel123666888/OmniJev/blob/14dbec4f71e194852c8d7b88ab36ef639493f400/README.md
+    kind: v1.1 results dated in README, not first-public date
+    date: '2026-09-26'
+    first_public: false
+  github: https://github.com/tinnel123666888/OmniJev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/tinnel123/OmniJev
+  backbone: Qwen3.5
+  params: 0.8B / 2B / 4B
+  architecture: Hybrid VLM + Decision/ordinal heads
+  training: LoRA + Calibration Training
+  rl: 'No'
+  rl_status: Probability-scoring training and post-hoc temperature fitting documented; no RLCD attribution established
+  ar: 'No'
+  decision_mechanism: Typed decision heads; prefix branches
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: Partial
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: partial
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/tinnel123666888/OmniJev/blob/14dbec4f71e194852c8d7b88ab36ef639493f400/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  - url: https://github.com/tinnel123666888/OmniJev/releases/tag/v1.1
+    supports:
+    - release_artifacts
+    level: Author release link
+  notes:
+    en: The reviewed v1.1 family uses rank-32 LoRA, decision/ordinal heads and probability-scoring training followed by temperature calibration. No RLCD stage is
+      documented in this recipe. Offline replay demonstrations are not validated closed-loop robot or game control.
+    zh: 核查的 v1.1 家族采用 rank-32 LoRA、decision/ordinal heads、概率评分训练及温度校准；该配方未列出 RLCD。离线回放不能作为闭环机器人或游戏控制证据。
+    ja: v1.1 は rank-32 LoRA、decision/ordinal head、確率スコアによる学習と温度校正。確認した配方に RLCD はない。オフライン再生を閉ループ制御の検証と扱わない。
+  media:
+    summary: Image + frame mosaic + spectrogram
+    image: Native images; multi-image panels
+    video: 16 timestamped frames rendered as one mosaic
+    audio: Spectrogram / waveform images
+    training: LoRA + heads; probability scoring + temperature fit
+    rl: No RL stage documented
+    execution: Prefix-branch inference; panels and checkpoint-dependent path
+    source: https://github.com/tinnel123666888/OmniJev/blob/14dbec4f71e194852c8d7b88ab36ef639493f400/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Audio is represented visually, not passed to a native audio encoder. video_state constructs a 16-frame mosaic. Base weights must be downloaded separately.
+        v1.1 aggregates use capped/unequal subsets and include withdrawn label-defect results; not a cross-model leaderboard.
+      zh: 音频以频谱图/波形图输入，不是原生音频编码器；video_state 生成 16 帧拼图。需另下底座。v1.1 汇总涉及截断及不等规模子集，部分标签缺陷结果已撤回，不能拼成统一排行榜。
+      ja: 音声はスペクトログラム等の画像として入力。video_state は 16 フレームのモザイクを作る。基盤重みは別途必要。v1.1 の集計は上限付き・非等量の部分集合で、ラベル不備による撤回もある。
+    artifact: https://huggingface.co/tinnel123/OmniJev
+- id: jev-spatial
+  name: Jev-Spatial
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/Fr0zenCrane/jev-spatial
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/Fr0zencr4nE/jev-spatial
+  backbone: Molmo2-ER
+  params: Not separately verified
+  architecture: AR VLM + Decision Head
+  training: LoRA + Decision Head
+  rl: 'No'
+  rl_status: One supervised CE objective; no RLCD in the documented recipe
+  ar: 'No'
+  decision_mechanism: Unified choice head; hierarchical scalar/point decisions
+  outputs:
+  - Choice
+  - Regression
+  weights: 'Yes'
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: partial
+    calibration: unknown
+    shared_state: 'yes'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/Fr0zenCrane/jev-spatial/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Spatial relations, numeric ranges and pointing share a LayerNorm/linear choice head. Numeric output takes two rounds; pointing takes three 3x3 decisions with
+      crop refill. There is no generated answer text, but the complete task is not always one forward pass.
+    zh: 空间关系、数值区间与指点共享 LayerNorm/Linear 选择头。数值两轮、指点三轮 3×3 网格并重新裁图；不生成答案文本，但完整任务并非一次前向。
+    ja: 空間関係・数値範囲・pointing は共通の LayerNorm/Linear head。数値は 2 回、pointing は crop refill を伴う 3 回の 3×3 選択。文章生成はないが全タスクが単一 forward ではない。
+  media:
+    summary: Image(s) + spatial question
+    image: Native images and selected crops
+    video: Not documented
+    audio: Not documented
+    training: LLM LoRA + unified head; vision/projector frozen
+    rl: Supervised cross-entropy; no RLCD
+    execution: Shared image cache; same-round crop batching
+    source: https://github.com/Fr0zenCrane/jev-spatial/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Pointing is a grid path, not direct continuous box regression. Against a shared-prefix AR baseline the 24-crop path can be slower; provisional RoboSpatial
+        numbers are explicitly flagged by the author.
+      zh: 指点输出来自网格路径，不是连续 bbox 回归；对比同样共享前缀的 AR 基线，24-crop 路径可能更慢。作者明确标记 RoboSpatial 数字待核实。
+      ja: Pointing はグリッド経路であり連続 bbox 回帰ではない。共有 prefix の AR 基準より 24-crop 経路が遅い場合がある。RoboSpatial の数値には作者の未検証注記がある。
+    artifact: https://huggingface.co/Fr0zencr4nE/jev-spatial
+- id: llm2jev
+  name: LLM2Jev
+  official: false
+  release_date: null
+  release_evidence:
+  - url: https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md
+    kind: Documented text/image support milestone
+    date: '2026-09-22'
+    first_public: false
+  - url: https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md
+    kind: Documented MLX-VLM backend milestone
+    date: '2026-09-23'
+    first_public: false
+  github: https://github.com/Yinsongxu/LLM2Jev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Configurable LLM / VLM (Qwen examples)
+  params: Configuration-dependent
+  architecture: AR/Hybrid VLM / Option Scorer
+  training: None
+  rl: 'No'
+  rl_status: 'No'
+  ar: 'No'
+  decision_mechanism: Candidate binary scoring from prefill logits
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: 'No'
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: unknown
+    shared_state: partial
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Training-free local scorer with SGLang, Transformers and MLX backends. Text/image requests are supported; cache reuse is backend- and scheduling-dependent.
+      It is an inspectable inference mechanism, not newly trained Jev weights.
+    zh: 无需训练的本地打分器，支持 SGLang、Transformers、MLX 和图文请求。缓存复用取决于后端与调度；这是可检查的推理实现，不是新训练的 Jev 权重。
+    ja: SGLang・Transformers・MLX に対応する学習不要のローカル scorer。画像入力とキャッシュ再利用は経路に依存する。新しい学習済み Jev 重みではなく推論実装。
+  media:
+    summary: Text + image
+    image: Native images in state/instructions
+    video: Not documented
+    audio: Not documented
+    training: Frozen backbone
+    rl: No RLCD
+    execution: Staged SGLang candidate cache; explicit MLX prefix reuse
+    source: https://github.com/Yinsongxu/LLM2Jev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: September 22 documents multimodal support; September 23 adds MLX-VLM. These are version milestones, not first-public dates. Native probabilities are not
+        a calibration guarantee.
+      zh: 9 月 22 日记录图文支持、23 日增加 MLX-VLM，均为版本进展而非首次发布日期。原生概率不保证校准。
+      ja: 9 月 22 日に画像対応、23 日に MLX-VLM を記録。初回公開日ではなく機能更新。確率の直接出力だけでは校正を保証しない。
+    artifact: null
+- id: jev-visual-mlx
+  name: Jev Visual (MLX)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/hr98w/jev-visual
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3.5-0.8B
+  params: 0.8B; documented 4-bit path
+  architecture: Hybrid VLM / Option Scorer
+  training: None
+  rl: 'No'
+  rl_status: 'No'
+  ar: 'No'
+  decision_mechanism: Candidate-label / sequence logits
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: 'No'
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: 'no'
+    shared_state: 'yes'
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/hr98w/jev-visual/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Frozen Qwen3.5 MLX visual scoring. Image/context prefill is reused by copied KV/recurrent state and batched question suffixes. There is no project-specific
+      training or calibration; only the Qwen3.5 adapter is verified by the author.
+    zh: 冻结 Qwen3.5 的 MLX 视觉打分。图像及上下文 prefill 后复制 KV/循环状态并批处理问题后缀。无项目训练与校准；作者仅核实 Qwen3.5 adapter。
+    ja: 凍結 Qwen3.5 の MLX 視覚 scorer。画像/context の prefill 後に KV/再帰状態をコピーし suffix をバッチ処理。追加学習・校正はなく、作者が確認した adapter は Qwen3.5。
+  media:
+    summary: Text + image / camera frame
+    image: Native pixels
+    video: Per-frame camera demos; no temporal-video claim
+    audio: Not documented
+    training: None
+    rl: No RLCD
+    execution: Shared prefill; copied cache; suffix batches
+    source: https://github.com/hr98w/jev-visual/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Supports 1–64 questions and 2–26 options. Reused state is copied, not zero-copy. Simplified game demos and throughput measurements do not establish general
+        game-playing quality.
+      zh: 支持 1–64 问题、2–26 候选。缓存是复制复用而非零拷贝；简化游戏演示和吞吐测试不代表通用游戏能力。
+      ja: 1–64 質問、2–26 候補。キャッシュはコピーされ、zero-copy ではない。簡略化ゲームやスループット測定を汎用ゲーム能力と解釈しない。
+    artifact: null
+- id: visual-jev-anderson
+  name: Visual Jev (Anderson)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/andrueandersoncs/visual-jev
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen3-VL
+  params: Size depends on registry checkpoint
+  architecture: AR VLM + Pointer Head
+  training: LoRA + Decision Head + Calibration Training
+  rl: 'No'
+  rl_status: Supervised/head/calibration pipeline documented; no RLCD evidence inspected
+  ar: 'No'
+  decision_mechanism: Learned option pointer head
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: Unknown
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: partial
+    multi_q: 'yes'
+    parallel_q: partial
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/andrueandersoncs/visual-jev/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Independent implementation, not the Yu/Yao paper. Documentation describes image-native packed isolated branches, language LoRA, a pointer head and held-out
+      temperature fitting. A public promoted checkpoint was not verified; missing registry weights fail closed.
+    zh: 独立实现，不是 Yu/Yao 的论文代码。文档描述原生图像、packed 隔离分支、语言 LoRA、pointer head 与留出温度拟合。未核实可公开获取的 promoted checkpoint；缺少本地权重会拒绝启动。
+    ja: Yu/Yao 論文とは別実装。画像・分離 packed 分岐・言語 LoRA・pointer head・holdout 温度校正を文書化。公開 promoted checkpoint の取得は未確認で、重み欠如時は停止する。
+  media:
+    summary: Image(s) + text
+    image: Native one/multiple images (documented)
+    video: Not documented
+    audio: Not documented
+    training: Documented LoRA + pointer head; temperature fit
+    rl: No RLCD evidence in reviewed documentation
+    execution: Packed isolated question branches (documented)
+    source: https://github.com/andrueandersoncs/visual-jev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Treat it as an inspectable research implementation, not a verified downloadable release. The registry label is not release-date evidence. Candidate-token
+        inference is a separate uncalibrated baseline.
+      zh: 作为可检查的研究实现收录，不声称已有可下载的正式模型。registry 名称不作为发布日期；候选 token 读出是单独未校准基线。
+      ja: コードを調査可能な研究実装として収録し、取得可能な正式重みとは主張しない。registry 名は公開日の根拠にしない。token readout は別の未校正 baseline。
+    artifact: null
+- id: openjev-multimodal
+  name: OpenJev Multimodal
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/jev-skills/openjev-multimodal
+  website: null
+  paper: null
+  huggingface: null
+  backbone: Qwen VLM family via llama.cpp
+  params: 0.8B / 4B default profiles; larger optional
+  architecture: AR/Hybrid VLM
+  training: None
+  rl: 'No'
+  rl_status: Frozen upstream model; one-token constrained decoding, no RLCD
+  ar: 'Yes'
+  decision_mechanism: One generated label token + candidate probabilities
+  outputs:
+  - Noul
+  - Choice
+  - Score
+  weights: 'No'
+  properties:
+    typed: 'yes'
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: 'no'
+    shared_state: partial
+    multi_q: 'yes'
+    parallel_q: 'no'
+    non_ar: 'no'
+  evidence:
+  - url: https://github.com/jev-skills/openjev-multimodal/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Local llama.cpp/Metal decision engine with inspectable constrained-label readout. It generates one answer token per question, not zero tokens; Python constructs
+      typed results. No new model training or RLCD is documented.
+    zh: 本地 llama.cpp/Metal 决策引擎，使用可检查的受限标签读出。每题生成一个答案 token，不是零 token；Python 组装结构化结果。未训练新模型，也无 RLCD。
+    ja: llama.cpp/Metal の制約付きラベル読出し。質問ごとに 1 token を生成し、ゼロ token ではない。型付き結果は Python が構築。追加学習や RLCD はない。
+  media:
+    summary: Text + image / sampled frames
+    image: Native PNG/JPEG/WebP
+    video: Sampled images only; native video unsupported
+    audio: Unsupported in reviewed backend
+    training: None
+    rl: No RLCD
+    execution: One output token/question; local serialized-resource default
+    source: https://github.com/jev-skills/openjev-multimodal/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Supports complete candidate probabilities and image inputs. Audio and native video are explicitly unsupported. This row retains AR Decoding=Yes for its
+        actual one-token path; no long prose/JSON decoding is implied.
+      zh: 支持完整候选概率及图像输入；明确不支持音频和原生视频。由于确实生成一个标签 token，AR Decoding 标为 Yes，但并不生成长文本或 JSON。
+      ja: 画像と全候補確率に対応。音声・ネイティブ動画は明示的に非対応。1 ラベル token を生成するため AR Decoding=Yes とするが、長文や JSON 生成ではない。
+    artifact: null
+- id: jev-omni
+  name: Jev-Omni (Gemma)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: null
+  website: https://huggingface.co/akhilaaa3/Jev-Omni
+  paper: null
+  huggingface: https://huggingface.co/akhilaaa3/Jev-Omni
+  backbone: Gemma 4 12B IT
+  params: 12B + 256-slot head
+  architecture: Multimodal Backbone + Classification Head
+  training: Fine-tuning (author reported)
+  rl: Unknown
+  rl_status: No complete training recipe or RLCD source verified; author reports fine-tuning
+  ar: 'No'
+  decision_mechanism: Last-hidden-state 256-slot classifier
+  outputs:
+  - Choice
+  - Probability Distribution
+  weights: 'Yes'
+  properties:
+    typed: partial
+    dynamic: 'yes'
+    variable: 'yes'
+    native: 'yes'
+    calibration: partial
+    shared_state: 'no'
+    multi_q: 'no'
+    parallel_q: 'no'
+    non_ar: 'yes'
+  evidence:
+  - url: https://huggingface.co/akhilaaa3/Jev-Omni
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  - url: https://huggingface.co/akhilaaa3/Jev-Omni/commit/6028e1fde1604c3442f5394e7d0eb3b534a7afe9
+    supports:
+    - classifier_head
+    - unified_bf16
+    - native_audio_components
+    - packaging_correction
+    level: Primary source diff inspected
+  - url: https://huggingface.co/akhilaaa3/Jev-Omni/blob/main/processor_config.json
+    supports:
+    - audio_processor
+    - image_processor
+    - video_processor
+    level: Primary configuration excerpt
+  notes:
+    en: HF-hosted inference code and weights; no canonical GitHub repository was verified. A finite slot head scores runtime options without text generation. The
+      author reports a 30k-question fine-tune; the complete training recipe and RLCD attribution were not established.
+    zh: 已核实 HF 托管的推理代码与权重，未核实规范 GitHub 仓库。有限槽位分类头读取运行时候选，不生成文本。作者报告 3 万题微调，但完整训练配方和 RLCD 归属未确认。
+    ja: HF 上の推論コードと重みを確認。公式 GitHub は未確認。有限スロット head で実行時候補を評価し文章を生成しない。3 万問の fine-tune は作者の報告で、完全な学習手順と RLCD は未確認。
+  media:
+    summary: Text + image + audio + frames
+    image: Native image encoder
+    video: 16-frame public helper; processor configuration is a separate path
+    audio: Native Gemma audio components
+    training: Reported fine-tuning; full training scope unverified
+    rl: Unknown; do not infer RLCD from calibration metrics
+    execution: One question/call; no shared multi-question discount
+    source: https://huggingface.co/akhilaaa3/Jev-Omni
+    checked_at: '2026-09-28'
+    notes:
+      en: Unlike OmniJev/Qwen, audio uses Gemma audio components, not spectrogram images. The inspected root conversion now loads unified BF16 weights plus head.pt,
+        replacing the old FP32/separate-base path still described by some card text. 256 slots exist, but quality above 20 choices is not established.
+      zh: 不同于 Qwen OmniJev，音频使用 Gemma 音频组件而非频谱图。已核查的根目录迁移改为统一 BF16 权重加 head.pt；部分模型卡仍描述旧 FP32/另下底座路径。可容纳 256 槽位，不等于超过 20 候选也有可靠效果。
+      ja: Qwen OmniJev と違い Gemma 音声コンポーネントを使用。確認した更新では root の統合 BF16 と head.pt を読み、旧 FP32/別 base 経路を置き換える。256 スロット対応でも 20 候補超の品質は未確立。
+    artifact: https://huggingface.co/akhilaaa3/Jev-Omni
+- id: groundingjev
+  name: GroundingJev (task-specific)
+  official: false
+  release_date: null
+  release_evidence: []
+  github: https://github.com/xyzzzh/GroundingJev
+  website: null
+  paper: null
+  huggingface: https://huggingface.co/xyzzzh/GroundingJev
+  backbone: Qwen3.5-0.8B
+  params: 0.8B + regression head
+  architecture: Hybrid VLM + Regression Head
+  training: Head-only then joint SFT
+  rl: 'No'
+  rl_status: Supervised weighted L1/GIoU; not RLCD
+  ar: 'No'
+  decision_mechanism: Continuous normalized bounding-box regression
+  outputs:
+  - Regression
+  weights: 'Yes'
+  properties:
+    typed: 'yes'
+    dynamic: 'no'
+    variable: 'no'
+    native: 'no'
+    calibration: 'no'
+    shared_state: unknown
+    multi_q: 'no'
+    parallel_q: 'no'
+    non_ar: 'yes'
+  evidence:
+  - url: https://github.com/xyzzzh/GroundingJev/blob/main/README.md
+    supports:
+    - media_input
+    - training
+    - decision_path
+    - limitations
+    level: Author implementation documentation
+  notes:
+    en: Explicit Jev-inspired visual grounding, not a general typed probability model. An MLP reads the last valid hidden state and regresses normalized cxcywh. Training
+      uses weighted L1/GIoU, first head adaptation then language/visual-merger/head tuning; other vision parameters stay frozen.
+    zh: 明确受 Jev 启发的视觉定位，不是通用概率决策模型。MLP 读取最后有效 hidden state，直接回归归一化 cxcywh。训练使用 L1/GIoU，先适配头再调语言骨干、视觉 merger 与头，其余视觉参数冻结。
+    ja: Jev に着想を得た視覚 grounding だが汎用確率判断モデルではない。最後の有効 hidden state から MLP で cxcywh を回帰。L1/GIoU により head 適応後、言語・visual merger・head を学習。
+  media:
+    summary: Image + referring expression
+    image: Native pixels
+    video: Not documented
+    audio: Not documented
+    training: Head adaptation + joint language/merger/head training
+    rl: No RLCD; L1/GIoU supervision
+    execution: One-pass box regression; no multi-Q reuse established
+    source: https://github.com/xyzzzh/GroundingJev/blob/main/README.md
+    checked_at: '2026-09-28'
+    notes:
+      en: Dynamic Options and Native Probability are absent in this scoped path. Bbox accuracy and inference speed are author results, not directly comparable to
+        Choice accuracy or calibrated probabilities.
+      zh: 当前路径没有 Dynamic Options 或 Native Probability。bbox 精度和速度是作者实验，不能与 Choice 准确率或校准概率直接比较。
+      ja: この経路には Dynamic Options と Native Probability がない。bbox の精度・速度は作者の実験であり Choice 正答率や校正確率とは別の指標。
+    artifact: https://huggingface.co/xyzzzh/GroundingJev

@@ -60,3 +60,48 @@ papers:
     en: Adjacent runtime-label classification research; not itself a Jev reproduction.
     zh: 与运行时标签分类相邻的研究，不直接视为 Jev 复现。
     ja: 実行時ラベル分類の関連研究であり、Jev の再現とは区別する。
+- id: visual-jev-paper
+  title: 'Visual Jev: Accurate and Efficient Decisions from Shared Visual Context'
+  date: '2026-09-22'
+  paper: https://arxiv.org/abs/2609.25845
+  code: https://github.com/guanxuyu-sv/Visual-Jev
+  topic: Native-image decisions / shared context
+  multimodal_related: true
+  notes:
+    en: Existing LM-head readout with answer SFT and shared visual-prefix execution; the paper date does not establish earliest code publication.
+    zh: 原有 LM head、答案 SFT 与视觉前缀共享；论文日期不等于最早代码公开日期。
+    ja: 既存 LM head、回答 SFT、視覚 prefix 共有。論文日付は最初のコード公開日を示さない。
+- id: pixeljev-paper
+  title: 'From Text Decisions to Pixels: An Study of Jev-Style Visual Choice Model'
+  date: '2026-09-24'
+  paper: https://arxiv.org/abs/2609.29283
+  code: null
+  topic: Native-image choice / adaptation / calibration
+  multimodal_related: true
+  notes:
+    en: Primary abstract reviewed. Frozen readout, language adaptation and calibration are separate controls. Author code not verified; the pixel-art repository with
+      the same name is unrelated.
+    zh: 依据一手摘要，区分冻结读出、语言适配与校准对照。未核实作者代码；同名像素画仓库不是论文实现。
+    ja: 一次摘要を確認。凍結読出し・言語適応・校正を区別。作者コード未確認。同名 pixel-art repo は論文実装ではない。
+- id: jev-mobile-paper
+  title: 'Jev-Mobile: Jev as an Executor for Mobile GUI Agents'
+  date: '2026-09-24'
+  paper: https://arxiv.org/abs/2609.30186
+  code: null
+  topic: VLM planner + accessibility-tree decision executor
+  multimodal_related: true
+  notes:
+    en: Primary abstract reviewed. An agent system, not evidence that the Jev executor consumes raw screenshots. Canonical author code not verified.
+    zh: 依据一手摘要：VLM 规划器加 accessibility-tree 决策执行器，属于系统研究，不能证明 Jev 直接看截图；未核实作者代码。
+    ja: 一次摘要を確認。VLM planner と accessibility-tree executor のシステムで、Jev が画素を読む証拠ではない。作者コード未確認。
+- id: jev-wild-paper
+  title: 'Jev in the Wild: A Data-Driven Analysis of the Jev Model''s Functionality, Applications and Ecosystem'
+  date: '2026-09-24'
+  paper: https://arxiv.org/abs/2609.30216
+  code: null
+  topic: Ecosystem study; not a model
+  multimodal_related: true
+  notes:
+    en: Primary abstract reviewed. Surveys the ecosystem using a September 22 GitHub snapshot; repository counts are not counts of independent decision models.
+    zh: 依据一手摘要，使用 9 月 22 日 GitHub 快照研究生态；仓库总量不等于独立决策模型数量。
+    ja: 一次摘要を確認。9/22 の GitHub snapshot に基づく生態系分析で、repo 数は独立判断モデル数ではない。

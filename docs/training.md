@@ -80,3 +80,8 @@ Brier is twice the scalar Bernoulli Brier. ECE depends on binning and the type o
 confidence being calibrated. Risk-coverage assesses selective use, not a universal
 safety guarantee. Temperature scaling changes probability sharpness without adding
 semantic evidence. See [On Calibration](https://arxiv.org/abs/1706.04599).
+
+
+## Multimodal additions — 2026-09-28
+
+[Valen source](https://github.com/Liuziyu77/Valen/blob/06251f9d9d3c06ea690be93b8696ccc66471f8c9/valen/training/rlcd.py) samples categorical actions, freezes old log-probabilities/rewards, applies a clipped group-relative policy loss, reference KL and direct Brier loss. Labels are available: this is a local RLCD-inspired design, not recovered TypeSafe training. Visual Jev (Yu/Yao) recommends answer SFT and the existing LM head. OmniJev/Qwen documents probability-scoring training and temperature calibration without an established RLCD stage. Jev-Spatial uses CE; GroundingJev uses L1/GIoU. The decider vision model card documents supervised tuning followed by PPO from pixels and a v5 language transplant, not the latest text-model checkpoint. Jev-Omni/Gemma has a public classifier and multimodal weights, but its complete training recipe/RLCD attribution was not verified. See [version-specific comparison](multimodal.md).
