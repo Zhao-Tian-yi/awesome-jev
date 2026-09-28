@@ -8,6 +8,8 @@ on:
       - scripts/generate_readme.py
       - scripts/github_stars.py
       - scripts/test_presentation.py
+      - scripts/multimodal_catalog.py
+      - scripts/test_multimodal.py
       - data/projects.yaml
       - data/awesome-lists.yaml
       - data/papers.yaml
@@ -35,6 +37,7 @@ jobs:
         run: |
           python scripts/github_stars.py --self-test
           python scripts/test_presentation.py
+          python scripts/test_multimodal.py
       - name: Read repository star counts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -45,10 +48,11 @@ jobs:
           python scripts/validate.py
           python scripts/generate_readme.py --check
           python scripts/test_presentation.py
+          python scripts/test_multimodal.py
           git diff --check
       - name: Commit generated files
         run: |
-          git add data/github-stars.json README.md README.zh-CN.md README.ja.md docs/evidence.md docs/comparison.md docs/updates.md
+          git add data/github-stars.json README.md README.zh-CN.md README.ja.md docs/evidence.md docs/comparison.md docs/updates.md docs/multimodal.md
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
